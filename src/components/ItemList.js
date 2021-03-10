@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { Button } from 'react-native-paper';
 
 import Item from "./Item";
 
@@ -28,9 +29,7 @@ export default function ItemList(props) {
             </Text>
             <View style={styles.list}>
                 {itemListRender}
-                <View style={styles.button}>
-                    <Button title="ADD" color="black" onPress={props.onAdd} />
-                </View>
+                <Button color="black" icon="plus" mode="outlined" onPress={props.onAdd}>ADD</Button>
             </View>
         </View>
     );
@@ -48,8 +47,5 @@ const styles = StyleSheet.create({
     },
     list: {
         flex: 5
-    },
-    button: {
-        width: "23%",
     },
 });

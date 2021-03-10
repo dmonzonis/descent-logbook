@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, ScrollView, StatusBar } from 'react-native';
-
+import { Provider as PaperProvider } from 'react-native-paper';
 import HeroSheet from "./src/components/HeroSheet"
 
 export default function App() {
@@ -12,10 +12,12 @@ export default function App() {
     heros.push(<HeroSheet name="Player 3" character="Char 3" class="Class 3" key="3" />);
 
     return (
-        <ScrollView style={styles.container}>
-            <StatusBar />
-            {heros}
-        </ScrollView>
+        <PaperProvider>
+            <ScrollView style={styles.container}>
+                <StatusBar />
+                {heros}
+            </ScrollView>
+        </PaperProvider>
     );
 }
 

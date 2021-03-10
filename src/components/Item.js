@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { View, Text, StyleSheet } from 'react-native';
+import { IconButton } from 'react-native-paper';
 
 export default function Item(props) {
     return (
@@ -8,19 +8,13 @@ export default function Item(props) {
             <Text style={styles.itemText}>{props.name}</Text>
             <View style={styles.buttonArea}>
                 {props.onGive &&
-                    <Pressable onPress={props.onGive}>
-                        <AntDesign name="swap" size={20} color="black" style={styles.button} />
-                    </Pressable>
+                    <IconButton icon="share" color="black" size={20} onPress={props.onGive} />
                 }
                 {props.onSell &&
-                    <Pressable onPress={props.onSell}>
-                        <AntDesign name="isv" size={20} color="black" style={styles.button} />
-                    </Pressable>
+                    <IconButton icon="delete" color="black" size={20} onPress={props.onSell} />
                 }
                 {props.onDelete &&
-                    <Pressable onPress={props.onDelete}>
-                        <AntDesign name="delete" size={20} color="black" style={styles.button} />
-                    </Pressable>
+                    <IconButton icon="delete" color="black" size={20} onPress={props.onDelete} />
                 }
             </View>
         </View>
@@ -47,7 +41,4 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "flex-end",
     },
-    button: {
-        marginLeft: 10,
-    }
 });
