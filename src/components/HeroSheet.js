@@ -1,33 +1,21 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, Pressable } from 'react-native';
-import { AntDesign } from "@expo/vector-icons";
 import ItemList from "./ItemList";
+import DialogAddItem from "./Dialogs/DialogAddItem";
 
 
 export default function HeroSheet(props) {
-    const [xp, setXp] = useState(0);
-    const [skills, setSkills] = useState([]);
-    const [items, setItems] = useState([]);
-    const [giveModalVisible, setGiveModalVisible] = useState(false);
+    const [addDialogVisible, setAddDialogVisible] = useState(false);
+    const [selectedItemType, setSelectedItemType] = useState("item");
 
-    const modifyXp = (amount) => {
-        if (xp + amount >= 0) {
-            setXp(xp => xp + amount);
-        }
-    }
-
-    const addItemHandler = (itemType, name) => {
-        if (itemType === "item") {
-            setItems(items => [...items, name]);
-        } else {
-            setSkills(skills => [...skills, name]);
-        }
+    const addItemHandler = (itemType, itemName) => {
+        console.log(itemName);
+        props.addItemHandler(itemType, itemName);
     }
 
     const giveItemHandler = (idx) => {
         // Item type is implied to be "item"; one cannot sell skills
-        // TODO: Show modal asking who to give the item to
-        setGiveModalVisible(true);
+        props.setGiveDialogVisible(true);
     }
 
     const sellItemHandler = (idx) => {
@@ -37,26 +25,23 @@ export default function HeroSheet(props) {
     }
 
     const deleteItemHandler = (itemType, idx) => {
-        let itemsUpdated = itemType == "item" ? items.slice() : skills.slice();
-        itemsUpdated.splice(idx, 1);
-        itemType == "item" ? setItems(itemsUpdated) : setSkills(itemsUpdated);
+        props.deleteItemHandler(itemType, idx);
     }
 
     return (
         <View>
-            {/* <ModalGiveItem visible={giveModalVisible} onClose={() => setGiveModalVisible(false)} /> */}
+            <DialogAddItem
+                visible={addDialogVisible}
+                type={selectedItemType}
+                onClose={() => setAddDialogVisible(false)}
+                onAdd={addItemHandler.bind(this, selectedItemType)}
+            />
 
             <View style={styles.heroSheet}>
                 <View style={styles.nameArea}>
                     <Text style={styles.heroName}>{props.name}</Text>
                     <View style={styles.xpArea}>
-                        <Pressable onPress={() => modifyXp(-1)}>
-                            <AntDesign name="minuscircle" size={20} color="black" />
-                        </Pressable>
-                        <Text style={styles.xpText}>XP: {xp}</Text>
-                        <Pressable onPress={() => modifyXp(1)}>
-                            <AntDesign name="pluscircle" size={20} color="black" />
-                        </Pressable>
+                        <Text style={styles.xpText}>XP: {props.xp}</Text>
                     </View>
                 </View>
                 <Text style={styles.characterText}>{props.character} | {props.class}</Text>
@@ -65,15 +50,22 @@ export default function HeroSheet(props) {
 
                 <View>
                     <ItemList
-                        itemType="item" items={items}
-                        onAdd={() => addItemHandler("item")}
+                        itemType="item"
+                        items={props.items}
+                        onAdd={() => {
+                            setSelectedItemType("item");
+                            setAddDialogVisible(true);
+                        }}
                         onGive={giveItemHandler}
-                        onSell={sellItemHandler.bind(this, "item")}
+                        onSell={sellItemHandler}
                     />
                     <ItemList
                         itemType="skill"
-                        items={skills}
-                        onAdd={() => addItemHandler("skill")}
+                        items={props.skills}
+                        onAdd={() => {
+                            setSelectedItemType("skill");
+                            setAddDialogVisible(true);
+                        }}
                         onDelete={deleteItemHandler.bind(this, "skill")}
                     />
                 </View>

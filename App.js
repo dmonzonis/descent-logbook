@@ -1,30 +1,37 @@
-import React from 'react';
-import { StyleSheet, ScrollView, StatusBar } from 'react-native';
+import React, { useState } from 'react';
+import { StatusBar, View, Text } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
-import HeroSheet from "./src/components/HeroSheet"
+import Campaign from "./src/components/Campaign";
+
 
 export default function App() {
-    const heros = Array(4).fill(null);
+    const [campaigns, setCampaigns] = useState(null);
 
-    // Test data
-    heros.push(<HeroSheet name="Player 1" character="Char 1" class="Class 1" key="1" />);
-    heros.push(<HeroSheet name="Player 2" character="Char 2" class="Class 2" key="2" />);
-    heros.push(<HeroSheet name="Player 3" character="Char 3" class="Class 3" key="3" />);
+    // TEST DATA
+    const [ready, setReady] = useState(false);
+    if (!ready) {
+        const testCampaigns = [
+            {
+                uid: "test",
+                data: {
+                    gold: 0,
+                    heros: [
+                        { heroName: "Player 1", heroChar: "Char 1", heroClass: "Class 1", items: [], skills: [], xp: 0 },
+                        { heroName: "Player 2", heroChar: "Char 2", heroClass: "Class 2", items: [], skills: [], xp: 0 },
+                        { heroName: "Player 3", heroChar: "Char 3", heroClass: "Class 3", items: [], skills: [], xp: 0 },
+                    ]
+                }
+            }
+        ];
+        setCampaigns(testCampaigns);
+        setReady(true);
+        return <View><Text>Loading...</Text></View>;
+    }
 
     return (
         <PaperProvider>
-            <ScrollView style={styles.container}>
-                <StatusBar />
-                {heros}
-            </ScrollView>
+            <StatusBar />
+            <Campaign uid="test" data={campaigns[0].data} />
         </PaperProvider>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        paddingHorizontal: 5,
-    },
-});
