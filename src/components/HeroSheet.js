@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet, Pressable } from 'react-native';
 import ItemList from "./ItemList";
 import DialogAddItem from "./Dialogs/DialogAddItem";
+import DialogDeleteItem from "./Dialogs/DialogDeleteItem";
 
 
 export default function HeroSheet(props) {
     const [addDialogVisible, setAddDialogVisible] = useState(false);
+    const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
     const [selectedItemType, setSelectedItemType] = useState("item");
+    const [selectedItemIndex, setSelectedItemIndex] = useState(0);
 
     const addItemHandler = (itemType, itemName) => {
-        console.log(itemName);
         props.addItemHandler(itemType, itemName);
     }
 
@@ -28,6 +30,12 @@ export default function HeroSheet(props) {
         props.deleteItemHandler(itemType, idx);
     }
 
+    const onDeleteItem = (itemType, idx) => {
+        setSelectedItemType(itemType);
+        setSelectedItemIndex(idx);
+        setDeleteDialogVisible(true);
+    }
+
     return (
         <View>
             <DialogAddItem
@@ -35,6 +43,12 @@ export default function HeroSheet(props) {
                 type={selectedItemType}
                 onClose={() => setAddDialogVisible(false)}
                 onAdd={addItemHandler.bind(this, selectedItemType)}
+            />
+            <DialogDeleteItem
+                visible={deleteDialogVisible}
+                type={selectedItemType}
+                onClose={() => setDeleteDialogVisible(false)}
+                onDelete={() => deleteItemHandler(selectedItemType, selectedItemIndex)}
             />
 
             <View style={styles.heroSheet}>
@@ -57,7 +71,7 @@ export default function HeroSheet(props) {
                             setAddDialogVisible(true);
                         }}
                         onGive={giveItemHandler}
-                        onSell={sellItemHandler}
+                        onSell={onDeleteItem.bind(this, "item")}
                     />
                     <ItemList
                         itemType="skill"
@@ -66,7 +80,7 @@ export default function HeroSheet(props) {
                             setSelectedItemType("skill");
                             setAddDialogVisible(true);
                         }}
-                        onDelete={deleteItemHandler.bind(this, "skill")}
+                        onDelete={onDeleteItem.bind(this, "skill")}
                     />
                 </View>
             </View >
