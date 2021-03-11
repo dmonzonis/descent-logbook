@@ -15,11 +15,6 @@ export default function HeroSheet(props) {
         props.addItemHandler(itemType, itemName);
     }
 
-    const giveItemHandler = (idx) => {
-        // Item type is implied to be "item"; one cannot sell skills
-        props.setGiveDialogVisible(true);
-    }
-
     const sellItemHandler = (idx) => {
         // Item type is implied to be "item"; one cannot sell skills
         // TODO: Show modal asking the amount of gold to sell for
@@ -70,7 +65,7 @@ export default function HeroSheet(props) {
                             setSelectedItemType("item");
                             setAddDialogVisible(true);
                         }}
-                        onGive={giveItemHandler}
+                        onGive={props.onGiveItem}
                         onSell={onDeleteItem.bind(this, "item")}
                     />
                     <ItemList

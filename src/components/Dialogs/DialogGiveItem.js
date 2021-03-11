@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, RadioButton, Dialog, Portal } from 'react-native-paper';
 
 export default function DialogGiveItem(props) {
-    const [selectedPlayer, setSelectedPlayer] = useState(-1);
+    const [selectedPlayer, setSelectedPlayer] = useState(null);
 
     const buildRadioButtons = () => {
         const radioButtons = [];
@@ -27,7 +27,17 @@ export default function DialogGiveItem(props) {
                 </Dialog.Content>
                 <Dialog.Actions>
                     <Button color="black" onPress={props.onClose}>Cancel</Button>
-                    <Button color="black" disabled={selectedPlayer === -1}>Give</Button>
+                    <Button
+                        color="black"
+                        disabled={selectedPlayer === null}
+                        onPress={() => {
+                            props.onGiveItem(selectedPlayer);
+                            setSelectedPlayer(null);
+                            props.onClose();
+                        }}
+                    >
+                        Give
+                    </Button>
                 </Dialog.Actions>
             </Dialog>
         </Portal>
