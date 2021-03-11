@@ -9,6 +9,16 @@ export default function Campaign(props) {
     const [giveDialogVisible, setGiveDialogVisible] = useState(false);
     const [giveItemInfo, setGiveItemInfo] = useState({ heroCharOrig: null, idx: null });
 
+    const modifyXpHandler = (heroChar, xp) => {
+        setHeros(heros => heros.map(hero => {
+            if (hero.heroChar === heroChar) {
+                return { ...hero, xp };
+            } else {
+                return hero;
+            }
+        }));
+    }
+
     const addItemHandler = (heroChar, itemType, itemName) => {
         setHeros(heros => heros.map(hero => {
             if (hero.heroChar === heroChar) {
@@ -51,8 +61,6 @@ export default function Campaign(props) {
     }
 
     const onGiveItem = (heroCharOrig, idx) => {
-        console.log(heros);
-        console.log(heros.length);
         setGiveItemInfo({ heroCharOrig, idx });
         setGiveDialogVisible(true);
     }
@@ -79,6 +87,7 @@ export default function Campaign(props) {
                         skills={hero.skills}
                         xp={hero.xp}
                         onGiveItem={heros.length > 1 && onGiveItem.bind(this, hero.heroChar)}
+                        modifyXpHandler={modifyXpHandler.bind(this, hero.heroChar)}
                         addItemHandler={addItemHandler.bind(this, hero.heroChar)}
                         giveItemHandler={giveItemHandler.bind(this, hero.heroChar)}
                         deleteItemHandler={(itemType, idx) => deleteItemHandler(hero.heroChar, itemType, idx)}

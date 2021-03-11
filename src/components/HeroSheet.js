@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Pressable } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
+import { IconButton } from 'react-native-paper';
 import ItemList from "./ItemList";
+import DialogModifyXp from "./Dialogs/DialogModifyXp";
 import DialogAddItem from "./Dialogs/DialogAddItem";
 import DialogDeleteItem from "./Dialogs/DialogDeleteItem";
 
 
 export default function HeroSheet(props) {
+    const [modifyXpDialogVisible, setModifyXpDialogVisible] = useState(false);
     const [addDialogVisible, setAddDialogVisible] = useState(false);
     const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
     const [selectedItemType, setSelectedItemType] = useState("item");
     const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+
+    const modifyXpHandler = (xp) => {
+        props.modifyXpHandler(xp);
+    }
 
     const addItemHandler = (itemType, itemName) => {
         props.addItemHandler(itemType, itemName);
@@ -42,8 +49,14 @@ export default function HeroSheet(props) {
             <DialogDeleteItem
                 visible={deleteDialogVisible}
                 type={selectedItemType}
+                itemName={props.items[selectedItemIndex]}
                 onClose={() => setDeleteDialogVisible(false)}
                 onDelete={() => deleteItemHandler(selectedItemType, selectedItemIndex)}
+            />
+            <DialogModifyXp
+                visible={modifyXpDialogVisible}
+                onClose={() => setModifyXpDialogVisible(false)}
+                onModifyXp={modifyXpHandler}
             />
 
             <View style={styles.heroSheet}>
@@ -51,6 +64,7 @@ export default function HeroSheet(props) {
                     <Text style={styles.heroName}>{props.name}</Text>
                     <View style={styles.xpArea}>
                         <Text style={styles.xpText}>XP: {props.xp}</Text>
+                        <IconButton icon="pencil" color="black" size={20} onPress={() => setModifyXpDialogVisible(true)} />
                     </View>
                 </View>
                 <Text style={styles.characterText}>{props.character} | {props.class}</Text>
@@ -114,7 +128,6 @@ const styles = StyleSheet.create({
     },
     xpText: {
         fontSize: 18,
-        marginHorizontal: 15,
     },
     separator: {
         borderBottomColor: "black",
