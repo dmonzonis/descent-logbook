@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, ScrollView, StatusBar } from 'react-native';
-import HeroSheet from "./HeroSheet"
+import PlayerSheet from "./PlayerSheet"
 import DialogGiveItem from "./Dialogs/DialogGiveItem";
 
 
@@ -89,7 +89,7 @@ export default function Campaign(props) {
 
             {heros.map(hero => {
                 return (
-                    <HeroSheet
+                    <PlayerSheet
                         key={hero.heroChar}  // Character is always unique
                         name={hero.heroName}
                         character={hero.heroChar}

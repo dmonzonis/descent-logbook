@@ -7,7 +7,7 @@ import DialogAddItem from "./Dialogs/DialogAddItem";
 import DialogDeleteItem from "./Dialogs/DialogDeleteItem";
 
 
-export default function HeroSheet(props) {
+export default function PlayerSheet(props) {
     const [modifyXpDialogVisible, setModifyXpDialogVisible] = useState(false);
     const [addDialogVisible, setAddDialogVisible] = useState(false);
     const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
@@ -59,7 +59,7 @@ export default function HeroSheet(props) {
                 onModifyXp={modifyXpHandler}
             />
 
-            <View style={styles.heroSheet}>
+            <View style={styles.playerSheet}>
                 <View style={styles.nameArea}>
                     <Text style={styles.heroName}>{props.name}</Text>
                     <View style={styles.xpArea}>
@@ -98,7 +98,7 @@ export default function HeroSheet(props) {
 }
 
 const styles = StyleSheet.create({
-    heroSheet: {
+    playerSheet: {
         textAlign: "center",
         alignSelf: "stretch",
         padding: 10,
