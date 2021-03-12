@@ -5,22 +5,29 @@ import DialogGiveItem from "./Dialogs/DialogGiveItem";
 
 
 export default function Campaign(props) {
-    const [heros, setHeros] = useState(props.data.heros);
+    const [heros, setHeros] = useState(props.campaign.heros);
+    const [gold, setGold] = useState(props.campaign.gold);
     const [giveDialogVisible, setGiveDialogVisible] = useState(false);
     const [giveItemInfo, setGiveItemInfo] = useState({ heroCharOrig: null, idx: null });
 
+    const updateCampaign = (data) => {
+        props.updateCampaign(data);
+    }
+
     const modifyXpHandler = (heroChar, xp) => {
-        setHeros(heros => heros.map(hero => {
+        const herosUpdated = heros.map(hero => {
             if (hero.heroChar === heroChar) {
                 return { ...hero, xp };
             } else {
                 return hero;
             }
-        }));
+        });
+        setHeros(herosUpdated);
+        updateCampaign({ gold, heros: herosUpdated });
     }
 
     const addItemHandler = (heroChar, itemType, itemName) => {
-        setHeros(heros => heros.map(hero => {
+        const herosUpdated = heros.map(hero => {
             if (hero.heroChar === heroChar) {
                 if (itemType === "item") {
                     return { ...hero, items: [...hero.items, itemName] };
@@ -30,11 +37,13 @@ export default function Campaign(props) {
             } else {
                 return hero;
             }
-        }));
+        });
+        setHeros(herosUpdated);
+        updateCampaign({ gold, heros: herosUpdated });
     }
 
     const deleteItemHandler = (heroChar, itemType, idx) => {
-        setHeros(heros => heros.map(hero => {
+        const herosUpdated = heros.map(hero => {
             if (hero.heroChar === heroChar) {
                 if (itemType === "item") {
                     return { ...hero, items: hero.items.filter((_, index) => index !== idx) }
@@ -44,7 +53,9 @@ export default function Campaign(props) {
             } else {
                 return hero;
             }
-        }));
+        });
+        setHeros(herosUpdated);
+        updateCampaign({ gold, heros: herosUpdated });
     }
 
     const giveItemHandler = (heroCharOrig, idx, heroCharDest) => {
