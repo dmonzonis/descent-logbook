@@ -38,6 +38,14 @@ export default function PlayerSheet(props) {
         setDeleteDialogVisible(true);
     }
 
+    const getCharDescription = () => {
+        if (props.character !== "Dark Lord") {
+            return <Text style={styles.characterText}>{props.character} | {props.class}</Text>;
+        } else {
+            return <Text style={styles.characterText}>{props.character}</Text>;
+        }
+    }
+
     return (
         <View>
             <DialogAddItem
@@ -61,13 +69,13 @@ export default function PlayerSheet(props) {
 
             <View style={styles.playerSheet}>
                 <View style={styles.nameArea}>
-                    <Text style={styles.heroName}>{props.name}</Text>
+                    <Text style={styles.playerName}>{props.name}</Text>
                     <View style={styles.xpArea}>
                         <Text style={styles.xpText}>XP: {props.xp}</Text>
                         <IconButton icon="pencil" color="black" size={20} onPress={() => setModifyXpDialogVisible(true)} />
                     </View>
                 </View>
-                <Text style={styles.characterText}>{props.character} | {props.class}</Text>
+                {getCharDescription()}
 
                 <View style={styles.separator} />
 
@@ -79,7 +87,7 @@ export default function PlayerSheet(props) {
                             setSelectedItemType("item");
                             setAddDialogVisible(true);
                         }}
-                        onGive={props.onGiveItem}
+                        onGive={props.character !== "Dark Lord" && props.onGiveItem}
                         onSell={onDeleteItem.bind(this, "item")}
                     />
                     <ItemList
@@ -112,7 +120,7 @@ const styles = StyleSheet.create({
         alignContent: "stretch",
         alignItems: "center",
     },
-    heroName: {
+    playerName: {
         fontSize: 24,
         marginRight: 5,
     },

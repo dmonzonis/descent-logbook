@@ -17,13 +17,15 @@ export default function App() {
     if (!loadedCampaign) {
         const testUid = "test";
         retrieveCampaign(testUid).then(campaign => {
+            campaign = null;
             if (!campaign) {
                 campaign = {
                     gold: 0,
-                    heros: [
-                        { heroName: "Player 1", heroChar: "Char 1", heroClass: "Class 1", items: [], skills: [], xp: 0 },
-                        { heroName: "Player 2", heroChar: "Char 2", heroClass: "Class 2", items: [], skills: [], xp: 0 },
-                        { heroName: "Player 3", heroChar: "Char 3", heroClass: "Class 3", items: [], skills: [], xp: 0 },
+                    players: [
+                        { playerName: "Player 1", playerChar: "Char 1", playerClass: "Class 1", items: [], skills: [], xp: 0 },
+                        { playerName: "Player 2", playerChar: "Char 2", playerClass: "Class 2", items: [], skills: [], xp: 0 },
+                        { playerName: "Player 3", playerChar: "Char 3", playerClass: "Class 3", items: [], skills: [], xp: 0 },
+                        { playerName: "Player 4", playerChar: "Dark Lord", items: [], skills: [], xp: 0 },
                     ]
                 };
             }

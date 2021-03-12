@@ -6,11 +6,11 @@ export default function DialogGiveItem(props) {
 
     const buildRadioButtons = () => {
         const radioButtons = [];
-        for (const hero of props.heros) {
+        for (const player of props.heros) {
             radioButtons.push(<RadioButton.Item
-                key={hero.heroChar}  // Character is always unique
-                label={hero.heroName}
-                value={hero.heroChar}
+                key={player.playerChar}  // Character is always unique
+                label={player.playerName}
+                value={player.playerChar}
             />);
         }
         return radioButtons;

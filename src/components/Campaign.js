@@ -5,74 +5,74 @@ import DialogGiveItem from "./Dialogs/DialogGiveItem";
 
 
 export default function Campaign(props) {
-    const [heros, setHeros] = useState(props.campaign.heros);
+    const [players, setPlayers] = useState(props.campaign.players);
     const [gold, setGold] = useState(props.campaign.gold);
     const [giveDialogVisible, setGiveDialogVisible] = useState(false);
-    const [giveItemInfo, setGiveItemInfo] = useState({ heroCharOrig: null, idx: null });
+    const [giveItemInfo, setGiveItemInfo] = useState({ playerCharOrig: null, idx: null });
 
     const updateCampaign = (data) => {
         props.updateCampaign(data);
     }
 
-    const modifyXpHandler = (heroChar, xp) => {
-        const herosUpdated = heros.map(hero => {
-            if (hero.heroChar === heroChar) {
-                return { ...hero, xp };
+    const modifyXpHandler = (playerChar, xp) => {
+        const playersUpdated = players.map(player => {
+            if (player.playerChar === playerChar) {
+                return { ...player, xp };
             } else {
-                return hero;
+                return player;
             }
         });
-        setHeros(herosUpdated);
-        updateCampaign({ gold, heros: herosUpdated });
+        setPlayers(playersUpdated);
+        updateCampaign({ gold, players: playersUpdated });
     }
 
-    const addItemHandler = (heroChar, itemType, itemName) => {
-        const herosUpdated = heros.map(hero => {
-            if (hero.heroChar === heroChar) {
+    const addItemHandler = (playerChar, itemType, itemName) => {
+        const playersUpdated = players.map(player => {
+            if (player.playerChar === playerChar) {
                 if (itemType === "item") {
-                    return { ...hero, items: [...hero.items, itemName] };
+                    return { ...player, items: [...player.items, itemName] };
                 } else {
-                    return { ...hero, skills: [...hero.skills, itemName] };
+                    return { ...player, skills: [...player.skills, itemName] };
                 }
             } else {
-                return hero;
+                return player;
             }
         });
-        setHeros(herosUpdated);
-        updateCampaign({ gold, heros: herosUpdated });
+        setPlayers(playersUpdated);
+        updateCampaign({ gold, players: playersUpdated });
     }
 
-    const deleteItemHandler = (heroChar, itemType, idx) => {
-        const herosUpdated = heros.map(hero => {
-            if (hero.heroChar === heroChar) {
+    const deleteItemHandler = (playerChar, itemType, idx) => {
+        const playersUpdated = players.map(player => {
+            if (player.playerChar === playerChar) {
                 if (itemType === "item") {
-                    return { ...hero, items: hero.items.filter((_, index) => index !== idx) }
+                    return { ...player, items: player.items.filter((_, index) => index !== idx) }
                 } else {
-                    return { ...hero, skills: hero.skills.filter((_, index) => index !== idx) }
+                    return { ...player, skills: player.skills.filter((_, index) => index !== idx) }
                 }
             } else {
-                return hero;
+                return player;
             }
         });
-        setHeros(herosUpdated);
-        updateCampaign({ gold, heros: herosUpdated });
+        setPlayers(playersUpdated);
+        updateCampaign({ gold, players: playersUpdated });
     }
 
-    const giveItemHandler = (heroCharOrig, idx, heroCharDest) => {
+    const giveItemHandler = (playerCharOrig, idx, playerCharDest) => {
         let itemName = null;
-        for (hero of heros) {
-            if (hero.heroChar === heroCharOrig) {
-                itemName = hero.items[idx];
+        for (const player of players) {
+            if (player.playerChar === playerCharOrig) {
+                itemName = player.items[idx];
                 break;
             }
         }
         if (!itemName) return;
-        addItemHandler(heroCharDest, "item", itemName);
-        deleteItemHandler(heroCharOrig, "item", idx);
+        addItemHandler(playerCharDest, "item", itemName);
+        deleteItemHandler(playerCharOrig, "item", idx);
     }
 
-    const onGiveItem = (heroCharOrig, idx) => {
-        setGiveItemInfo({ heroCharOrig, idx });
+    const onGiveItem = (playerCharOrig, idx) => {
+        setGiveItemInfo({ playerCharOrig, idx });
         setGiveDialogVisible(true);
     }
 
@@ -83,25 +83,25 @@ export default function Campaign(props) {
             <DialogGiveItem
                 visible={giveDialogVisible}
                 onClose={() => setGiveDialogVisible(false)}
-                onGiveItem={giveItemHandler.bind(this, giveItemInfo.heroCharOrig, giveItemInfo.idx)}
-                heros={heros.filter(hero => hero.heroChar !== giveItemInfo.heroCharOrig)}
+                onGiveItem={giveItemHandler.bind(this, giveItemInfo.playerCharOrig, giveItemInfo.idx)}
+                heros={players.filter(player => player.playerChar !== giveItemInfo.playerCharOrig && player.playerChar !== "Dark Lord")}
             />
 
-            {heros.map(hero => {
+            {players.map(player => {
                 return (
                     <PlayerSheet
-                        key={hero.heroChar}  // Character is always unique
-                        name={hero.heroName}
-                        character={hero.heroChar}
-                        class={hero.heroClass}
-                        items={hero.items}
-                        skills={hero.skills}
-                        xp={hero.xp}
-                        onGiveItem={heros.length > 1 && onGiveItem.bind(this, hero.heroChar)}
-                        modifyXpHandler={modifyXpHandler.bind(this, hero.heroChar)}
-                        addItemHandler={addItemHandler.bind(this, hero.heroChar)}
-                        giveItemHandler={giveItemHandler.bind(this, hero.heroChar)}
-                        deleteItemHandler={(itemType, idx) => deleteItemHandler(hero.heroChar, itemType, idx)}
+                        key={player.playerChar}  // Character is always unique
+                        name={player.playerName}
+                        character={player.playerChar}
+                        class={player.playerClass}
+                        items={player.items}
+                        skills={player.skills}
+                        xp={player.xp}
+                        onGiveItem={players.length > 1 && onGiveItem.bind(this, player.playerChar)}
+                        modifyXpHandler={modifyXpHandler.bind(this, player.playerChar)}
+                        addItemHandler={addItemHandler.bind(this, player.playerChar)}
+                        giveItemHandler={giveItemHandler.bind(this, player.playerChar)}
+                        deleteItemHandler={(itemType, idx) => deleteItemHandler(player.playerChar, itemType, idx)}
                     />
                 );
             })}
