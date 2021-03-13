@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, TextInput, Dialog, Portal } from 'react-native-paper';
+import { Button, Dialog, Portal } from 'react-native-paper';
+import TextInput from "../TextInput";
 
 export default function DialogAddItem(props) {
     const [itemName, setItemName] = useState("");

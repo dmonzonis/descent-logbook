@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Button } from 'react-native-paper';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,11 +8,11 @@ import {
     retrieveCampaign,
     retrieveSummaries,
     storeNewCampaignSummary,
-    updateCampaignSummary,
     deleteCampaign
 } from "../storage.js"
 import Campaign from "./Campaign";
 import DialogNewCampaign from "./Dialogs/DialogNewCampaign";
+import { DARK_BLUE } from "../colors";
 
 
 export default function CampaignSelector() {
@@ -61,7 +61,7 @@ export default function CampaignSelector() {
 
     if (!loadedCampaign) {
         return (
-            <View>
+            <ScrollView style={styles.root}>
                 <DialogNewCampaign
                     visible={createCampaignModalVisible}
                     existingNames={summaries && summaries.map(summary => summary.name)}
@@ -69,11 +69,29 @@ export default function CampaignSelector() {
                     onClose={() => setCreateCampaignModalVisible(false)}
                 />
 
+                <Text style={styles.title}>
+                    CAMPAIGNS
+                </Text>
+
                 {summaries && summaries.map(summary => {
-                    return <Button key={summary.uid} onPress={() => loadCampaign(summary.uid)}>{summary.name}</Button>
+                    return (
+                        <Button
+                            key={summary.uid}
+                            style={styles.campaignSummary}
+                            color={DARK_BLUE}
+                            labelStyle={styles.summaryText}
+                            onPress={() => loadCampaign(summary.uid)}>
+                            {summary.name}
+                        </Button>
+                    );
                 })}
-                <Button onPress={() => setCreateCampaignModalVisible(true)}>Add new campaign</Button>
-            </View>
+                <Button
+                onPress={() => setCreateCampaignModalVisible(true)}
+                color={DARK_BLUE}
+                >
+                    Add new campaign
+                    </Button>
+            </ScrollView>
         );
     }
 
@@ -84,3 +102,24 @@ export default function CampaignSelector() {
         />
     );
 }
+
+const styles = StyleSheet.create({
+    root: {
+        padding: 5,
+    },
+    campaignSummary: {
+        borderColor: "black",
+        borderRadius: 5,
+        borderWidth: 2,
+        marginVertical: 10,
+    },
+    summaryText: {
+        color: "black"
+    },
+    title: {
+        marginVertical: 10,
+        alignSelf: "center",
+        fontWeight: "bold",
+        fontSize: 24,
+    }
+});

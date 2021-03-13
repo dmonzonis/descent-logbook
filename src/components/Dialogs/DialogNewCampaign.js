@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
-import { Button, Text, TextInput, Dialog, Portal } from 'react-native-paper';
+import { Button, Text, Dialog, Portal } from 'react-native-paper';
+import TextInput from "../TextInput";
+import { DARK_BLUE } from "../../colors";
 
 export default function DialogNewCampaign(props) {
     const [name, setName] = useState("");
@@ -145,7 +147,7 @@ export default function DialogNewCampaign(props) {
                         })}
 
                         {heros.length < 4 &&
-                            <Button onPress={() => addHero()}>Add player</Button>
+                            <Button color={DARK_BLUE} onPress={() => addHero()}>Add player</Button>
                         }
                     </ScrollView>
                 </Dialog.ScrollArea>
@@ -153,6 +155,7 @@ export default function DialogNewCampaign(props) {
                     <Button color="red" onPress={onClose}>Cancel</Button>
                     <Button
                         disabled={isThereMissingData()}
+                        color={DARK_BLUE}
                         onPress={() => {
                             const data = completeData();
                             props.onCreate(name, data);
@@ -169,7 +172,6 @@ export default function DialogNewCampaign(props) {
 
 const styles = StyleSheet.create({
     formRoot: {
-        // flex: 1,
         backgroundColor: "white",
         height: "80%"
     },
