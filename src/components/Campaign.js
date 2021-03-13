@@ -3,6 +3,7 @@ import { StyleSheet, ScrollView, View } from 'react-native';
 import PlayerSheet from "./PlayerSheet"
 import DialogGiveItem from "./Dialogs/DialogGiveItem";
 import CampaignTopBar from "./CampaignTopBar";
+import GoldIndicator from "./GoldIndicator";
 
 
 export default function Campaign(props) {
@@ -57,6 +58,11 @@ export default function Campaign(props) {
         updateCampaign({ gold, players: playersUpdated });
     }
 
+    const modifyGoldHandler = (amount) => {
+        setGold(amount);
+        updateCampaign({ players, gold: amount });
+    }
+
     const addItemHandler = (playerChar, itemType, itemName) => {
         const playersUpdated = _addItem(players, playerChar, itemType, itemName);
         setPlayers(playersUpdated);
@@ -100,6 +106,11 @@ export default function Campaign(props) {
                     onClose={() => setGiveDialogVisible(false)}
                     onGiveItem={giveItemHandler.bind(this, giveItemInfo.playerCharOrig, giveItemInfo.idx)}
                     heros={players.filter(player => player.playerChar !== giveItemInfo.playerCharOrig && !player.isDarkLord)}
+                />
+
+                <GoldIndicator
+                    gold={gold}
+                    onModifyGold={modifyGoldHandler}
                 />
 
                 {players.map(player => {

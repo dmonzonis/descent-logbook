@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import ItemList from "./ItemList";
-import DialogModifyXp from "./Dialogs/DialogModifyXp";
+import DialogModifyValue from "./Dialogs/DialogModifyValue";
 import DialogAddItem from "./Dialogs/DialogAddItem";
 import DialogDeleteItem from "./Dialogs/DialogDeleteItem";
 
@@ -13,10 +13,6 @@ export default function PlayerSheet(props) {
     const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
     const [selectedItemType, setSelectedItemType] = useState("item");
     const [selectedItemIndex, setSelectedItemIndex] = useState(0);
-
-    const modifyXpHandler = (xp) => {
-        props.modifyXpHandler(xp);
-    }
 
     const addItemHandler = (itemType, itemName) => {
         props.addItemHandler(itemType, itemName);
@@ -61,10 +57,11 @@ export default function PlayerSheet(props) {
                 onClose={() => setDeleteDialogVisible(false)}
                 onDelete={() => deleteItemHandler(selectedItemType, selectedItemIndex)}
             />
-            <DialogModifyXp
+            <DialogModifyValue
+                name="XP"
                 visible={modifyXpDialogVisible}
                 onClose={() => setModifyXpDialogVisible(false)}
-                onModifyXp={modifyXpHandler}
+                onModifyValue={props.modifyXpHandler}
             />
 
             <View style={styles.playerSheet}>

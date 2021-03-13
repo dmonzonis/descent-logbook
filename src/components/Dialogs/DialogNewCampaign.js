@@ -75,8 +75,6 @@ export default function DialogNewCampaign(props) {
             }
             return hero;
         });
-        console.log("UPDATED:");
-        console.log(herosUpdated);
         setHeros(herosUpdated);
     }
 
@@ -118,7 +116,6 @@ export default function DialogNewCampaign(props) {
                         />
 
                         {heros.map((hero, idx) => {
-                            console.log(hero);
                             return (
                                 <View key={idx}>
                                     <Text>Hero {idx + 1}</Text>
