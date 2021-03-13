@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { Button, IconButton } from 'react-native-paper';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
@@ -92,17 +92,20 @@ export default function CampaignSelector() {
                 {summaries && summaries.map(summary => {
                     return (
                         <View key={summary.uid} style={styles.summaryRow}>
-                            <Button
-                                style={styles.campaignSummary}
-                                color={DARK_BLUE}
-                                labelStyle={styles.summaryText}
-                                onPress={() => loadCampaign(summary.uid)}>
-                                {summary.name}
-                            </Button>
+                            <View style={styles.campaignSummary}>
+                                <Pressable onPress={() => loadCampaign(summary.uid)}>
+                                    <View>
+                                        <Text style={styles.summaryText}>
+                                            {summary.name}
+                                        </Text>
+                                    </View>
+                                </Pressable>
+                            </View>
                             <IconButton
                                 icon="delete"
                                 color="red"
                                 size={18}
+                                style={styles.deleteButton}
                                 onPress={() => {
                                     setSelectedCampaignSummary(summary);
                                     setDeleteCampaignDialogVisible(true);
@@ -135,23 +138,30 @@ const styles = StyleSheet.create({
         padding: 5,
     },
     campaignSummary: {
+        flex: 10,
+        justifyContent: "center",
+    },
+    summaryRow: {
+        flexDirection: "row",
         borderColor: "black",
         borderRadius: 5,
         borderWidth: 2,
         marginVertical: 10,
-        flex: 1
-    },
-    summaryRow: {
-        flexDirection: "row",
-        alignItems: "center"
+        padding: 5,
     },
     summaryText: {
-        color: "black"
+        color: "black",
+        fontSize: 16,
+        paddingHorizontal: 10,
     },
     title: {
         marginVertical: 10,
         alignSelf: "center",
         fontWeight: "bold",
         fontSize: 24,
+    },
+    deleteButton: {
+        flex: 1,
+        alignSelf: "flex-end"
     }
 });
