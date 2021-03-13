@@ -39,7 +39,7 @@ export default function PlayerSheet(props) {
     }
 
     const getCharDescription = () => {
-        if (props.character !== "Dark Lord") {
+        if (!props.isDarkLord) {
             return <Text style={styles.characterText}>{props.character} | {props.class}</Text>;
         } else {
             return <Text style={styles.characterText}>{props.character}</Text>;
@@ -87,7 +87,7 @@ export default function PlayerSheet(props) {
                             setSelectedItemType("item");
                             setAddDialogVisible(true);
                         }}
-                        onGive={props.character !== "Dark Lord" && props.onGiveItem}
+                        onGive={!props.isDarkLord && props.onGiveItem}
                         onSell={onDeleteItem.bind(this, "item")}
                     />
                     <ItemList

@@ -125,6 +125,7 @@ export default function CampaignSelector() {
         <Campaign
             campaign={loadedCampaign}
             updateCampaign={updateCampaign}
+            onBack={() => setLoadedCampaign(null)}
         />
     );
 }

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, StatusBar } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import PlayerSheet from "./PlayerSheet"
 import DialogGiveItem from "./Dialogs/DialogGiveItem";
+import CampaignTopBar from "./CampaignTopBar";
 
 
 export default function Campaign(props) {
@@ -91,40 +92,45 @@ export default function Campaign(props) {
     }
 
     return (
-        <ScrollView style={styles.container}>
-            <StatusBar />
+        <View style={styles.root}>
+            <CampaignTopBar onBack={props.onBack} />
+            <ScrollView style={styles.sheetContainer}>
+                <DialogGiveItem
+                    visible={giveDialogVisible}
+                    onClose={() => setGiveDialogVisible(false)}
+                    onGiveItem={giveItemHandler.bind(this, giveItemInfo.playerCharOrig, giveItemInfo.idx)}
+                    heros={players.filter(player => player.playerChar !== giveItemInfo.playerCharOrig && !player.isDarkLord)}
+                />
 
-            <DialogGiveItem
-                visible={giveDialogVisible}
-                onClose={() => setGiveDialogVisible(false)}
-                onGiveItem={giveItemHandler.bind(this, giveItemInfo.playerCharOrig, giveItemInfo.idx)}
-                heros={players.filter(player => player.playerChar !== giveItemInfo.playerCharOrig && player.playerChar !== "Dark Lord")}
-            />
-
-            {players.map(player => {
-                return (
-                    <PlayerSheet
-                        key={player.playerChar}  // Character is always unique
-                        name={player.playerName}
-                        character={player.playerChar}
-                        class={player.playerClass}
-                        items={player.items}
-                        skills={player.skills}
-                        xp={player.xp}
-                        onGiveItem={players.length > 1 && onGiveItem.bind(this, player.playerChar)}
-                        modifyXpHandler={modifyXpHandler.bind(this, player.playerChar)}
-                        addItemHandler={addItemHandler.bind(this, player.playerChar)}
-                        giveItemHandler={giveItemHandler.bind(this, player.playerChar)}
-                        deleteItemHandler={(itemType, idx) => deleteItemHandler(player.playerChar, itemType, idx)}
-                    />
-                );
-            })}
-        </ScrollView>
+                {players.map(player => {
+                    return (
+                        <PlayerSheet
+                            key={player.playerChar}  // Character is always unique
+                            name={player.playerName}
+                            character={player.playerChar}
+                            class={player.playerClass}
+                            items={player.items}
+                            skills={player.skills}
+                            isDarkLord={player.isDarkLord}
+                            xp={player.xp}
+                            onGiveItem={players.length > 1 && onGiveItem.bind(this, player.playerChar)}
+                            modifyXpHandler={modifyXpHandler.bind(this, player.playerChar)}
+                            addItemHandler={addItemHandler.bind(this, player.playerChar)}
+                            giveItemHandler={giveItemHandler.bind(this, player.playerChar)}
+                            deleteItemHandler={(itemType, idx) => deleteItemHandler(player.playerChar, itemType, idx)}
+                        />
+                    );
+                })}
+            </ScrollView>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    root: {
+        flex: 1,
+    },
+    sheetContainer: {
         flex: 1,
         backgroundColor: "white",
         paddingHorizontal: 5,

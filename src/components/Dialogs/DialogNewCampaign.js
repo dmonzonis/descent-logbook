@@ -22,6 +22,7 @@ export default function DialogNewCampaign(props) {
             return {
                 ...hero,
                 xp: 0,
+                isDarkLord: false,
                 items: [],
                 skills: []
             }
@@ -30,6 +31,7 @@ export default function DialogNewCampaign(props) {
             playerName: darkLordName,
             playerChar: "Dark Lord",
             playerClass: null,
+            isDarkLord: true,
             xp: 0,
             items: [],
             skills: []
