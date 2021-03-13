@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, IconButton } from 'react-native-paper';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -12,6 +12,7 @@ import {
 } from "../storage.js"
 import Campaign from "./Campaign";
 import DialogNewCampaign from "./Dialogs/DialogNewCampaign";
+import DialogDeleteCampaign from './Dialogs/DialogDeleteCampaign.js';
 import { DARK_BLUE } from "../colors";
 
 
@@ -20,7 +21,9 @@ export default function CampaignSelector() {
     const [loadedCampaign, setLoadedCampaign] = useState(null);
     const [summaries, setSummaries] = useState(null);
     const [areSummariesLoaded, setAreSummariesLoaded] = useState(null);
-    const [createCampaignModalVisible, setCreateCampaignModalVisible] = useState(false);
+    const [createCampaignDialogVisible, setCreateCampaignDialogVisible] = useState(false);
+    const [deleteCampaignDialogVisible, setDeleteCampaignDialogVisible] = useState(false);
+    const [selectedCampaignSummary, setSelectedCampaignSummary] = useState(null);
 
     const updateCampaign = (campaignData) => {
         storeCampaign(loadedCampaignUid, campaignData);
@@ -40,6 +43,13 @@ export default function CampaignSelector() {
 
         const summariesUpdated = summaries || [];
         setSummaries([...summariesUpdated, summary]);
+    }
+
+    const deleteCampaignHandler = (uid) => {
+        deleteCampaign(uid);
+        const summariesUpdated = summaries.filter(summary => summary.uid !== uid);
+        setSummaries(summariesUpdated);
+        setSelectedCampaignSummary(null);
     }
 
     const loadCampaign = (uid) => {
@@ -63,10 +73,16 @@ export default function CampaignSelector() {
         return (
             <ScrollView style={styles.root}>
                 <DialogNewCampaign
-                    visible={createCampaignModalVisible}
+                    visible={createCampaignDialogVisible}
                     existingNames={summaries && summaries.map(summary => summary.name)}
                     onCreate={addNewCampaignHandler}
-                    onClose={() => setCreateCampaignModalVisible(false)}
+                    onClose={() => setCreateCampaignDialogVisible(false)}
+                />
+                <DialogDeleteCampaign
+                    visible={deleteCampaignDialogVisible}
+                    name={selectedCampaignSummary && selectedCampaignSummary.name}
+                    onDelete={() => deleteCampaignHandler(selectedCampaignSummary.uid)}
+                    onClose={() => setDeleteCampaignDialogVisible(false)}
                 />
 
                 <Text style={styles.title}>
@@ -75,19 +91,29 @@ export default function CampaignSelector() {
 
                 {summaries && summaries.map(summary => {
                     return (
-                        <Button
-                            key={summary.uid}
-                            style={styles.campaignSummary}
-                            color={DARK_BLUE}
-                            labelStyle={styles.summaryText}
-                            onPress={() => loadCampaign(summary.uid)}>
-                            {summary.name}
-                        </Button>
+                        <View key={summary.uid} style={styles.summaryRow}>
+                            <Button
+                                style={styles.campaignSummary}
+                                color={DARK_BLUE}
+                                labelStyle={styles.summaryText}
+                                onPress={() => loadCampaign(summary.uid)}>
+                                {summary.name}
+                            </Button>
+                            <IconButton
+                                icon="delete"
+                                color="red"
+                                size={18}
+                                onPress={() => {
+                                    setSelectedCampaignSummary(summary);
+                                    setDeleteCampaignDialogVisible(true);
+                                }}
+                            />
+                        </View>
                     );
                 })}
                 <Button
-                onPress={() => setCreateCampaignModalVisible(true)}
-                color={DARK_BLUE}
+                    onPress={() => setCreateCampaignDialogVisible(true)}
+                    color={DARK_BLUE}
                 >
                     Add new campaign
                     </Button>
@@ -112,6 +138,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 2,
         marginVertical: 10,
+        flex: 1
+    },
+    summaryRow: {
+        flexDirection: "row",
+        alignItems: "center"
     },
     summaryText: {
         color: "black"
