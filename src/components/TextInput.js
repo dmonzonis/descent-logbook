@@ -6,7 +6,7 @@ export default function TextInput(props) {
     return (
         <TextInputPaper
             label={props.label}
-            value={props.value}
+            defaultValue={props.defaultValue}
             style={props.style}
             dense={props.dense || false}
             selectionColor={DARK_BLUE}

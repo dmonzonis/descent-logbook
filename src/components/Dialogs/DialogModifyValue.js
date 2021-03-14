@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, TextInput, Dialog, Portal } from 'react-native-paper';
+import { Button, Dialog, Portal } from 'react-native-paper';
+import TextInput from "../TextInput";
 
 export default function DialogModifyValue(props) {
     const [value, setValue] = useState("");
@@ -11,7 +12,7 @@ export default function DialogModifyValue(props) {
                 <Dialog.Content>
                     <TextInput
                         label={props.name}
-                        value={value}
+                        defaultValue={value}
                         onChangeText={text => setValue(text)}
                     />
                 </Dialog.Content>
@@ -21,7 +22,7 @@ export default function DialogModifyValue(props) {
                         color="black"
                         disabled={value === ""}
                         onPress={() => {
-                            props.onModifyValue(value)
+                            props.onModifyValue(value);
                             setValue("");
                             props.onClose();
                         }}>

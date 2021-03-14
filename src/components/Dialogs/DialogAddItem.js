@@ -12,7 +12,7 @@ export default function DialogAddItem(props) {
                 <Dialog.Content>
                     <TextInput
                         label="Name"
-                        value={itemName}
+                        defaultValue={itemName}
                         onChangeText={text => setItemName(text)}
                     />
                 </Dialog.Content>

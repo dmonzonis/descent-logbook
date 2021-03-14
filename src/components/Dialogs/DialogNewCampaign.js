@@ -102,7 +102,7 @@ export default function DialogNewCampaign(props) {
                         <Text>Campaign</Text>
                         <TextInput
                             label="Campaign name"
-                            value={name}
+                            defaultValue={name}
                             onChangeText={text => setName(text)}
                             dense={true}
                         />
@@ -110,7 +110,7 @@ export default function DialogNewCampaign(props) {
                         <Text>Dark Lord</Text>
                         <TextInput
                             label="Dark Lord name"
-                            value={darkLordName}
+                            defaultValue={darkLordName}
                             onChangeText={text => setDarkLordname(text)}
                             dense={true}
                         />
@@ -121,7 +121,7 @@ export default function DialogNewCampaign(props) {
                                     <Text>Hero {idx + 1}</Text>
                                     <TextInput
                                         label="Hero name"
-                                        value={hero.playerName}
+                                        defaultValue={hero.playerName}
                                         dense={true}
                                         onChangeText={text => modifyHeroAttrib(idx, "name", text)}
                                     />
@@ -129,14 +129,14 @@ export default function DialogNewCampaign(props) {
                                         <TextInput
                                             style={styles.heroTextInput}
                                             label="Character"
-                                            value={hero.playerChar}
+                                            defaultValue={hero.playerChar}
                                             dense={true}
                                             onChangeText={text => modifyHeroAttrib(idx, "char", text)}
                                         />
                                         <TextInput
                                             style={styles.heroTextInput}
                                             label="Class"
-                                            value={hero.playerClass}
+                                            defaultValue={hero.playerClass}
                                             dense={true}
                                             onChangeText={text => modifyHeroAttrib(idx, "class", text)}
                                         />
