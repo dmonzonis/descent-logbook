@@ -71,7 +71,7 @@ export default function Campaign(props) {
     }
 
     const deleteItemHandler = (playerChar, itemType, idx) => {
-        const playersUpdated = _deleteItem(players, playeRChar, itemType, idx);
+        const playersUpdated = _deleteItem(players, playerChar, itemType, idx);
         setPlayers(playersUpdated);
         updateCampaign({ gold, players: playersUpdated });
     }
