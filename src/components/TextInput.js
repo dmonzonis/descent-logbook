@@ -1,8 +1,9 @@
 import React from 'react';
 import { TextInput as TextInputPaper } from 'react-native-paper';
+import PropTypes from 'prop-types';
 import { DARK_BLUE } from "../colors";
 
-export default function TextInput(props) {
+const TextInput = (props) => {
     return (
         <TextInputPaper
             label={props.label}
@@ -15,3 +16,13 @@ export default function TextInput(props) {
         />
     );
 }
+
+TextInput.propTypes = {
+    label: PropTypes.string,
+    defaultValue: PropTypes.string,
+    style: PropTypes.object,
+    dense: PropTypes.bool,
+    onChangeText: PropTypes.func,
+}
+
+export default TextInput;

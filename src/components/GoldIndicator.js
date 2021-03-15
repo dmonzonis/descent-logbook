@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
+import PropTypes from 'prop-types';
 import DialogModifyValue from './Dialogs/DialogModifyValue';
 
-export default function GoldIndicator(props) {
+const GoldIndicator = (props) => {
     const [modifyGoldDialogVisible, setModifyGoldDialogVisible] = useState(false);
 
     return (
@@ -27,6 +28,13 @@ export default function GoldIndicator(props) {
         </View>
     );
 }
+
+GoldIndicator.propTypes = {
+    onModifyGold: PropTypes.func,
+    gold: PropTypes.string
+};
+
+export default GoldIndicator;
 
 const styles = StyleSheet.create({
     root: {

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Button, RadioButton, Dialog, Portal } from 'react-native-paper';
+import PropTypes from 'prop-types';
 
-export default function DialogGiveItem(props) {
+const DialogGiveItem = (props) => {
     const [selectedPlayer, setSelectedPlayer] = useState(null);
 
     const buildRadioButtons = () => {
@@ -43,3 +44,12 @@ export default function DialogGiveItem(props) {
         </Portal>
     );
 }
+
+DialogGiveItem.propTypes = {
+    visible: PropTypes.bool,
+    heros: PropTypes.array,
+    onGiveItem: PropTypes.func,
+    onClose: PropTypes.func,
+};
+
+export default DialogGiveItem;

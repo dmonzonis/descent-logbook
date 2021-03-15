@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
+import PropTypes from 'prop-types';
 
-export default function DialogDeleteCampaign(props) {
+const DialogDeleteCampaign = (props) => {
     return (
         <Portal>
             <Dialog visible={props.visible} onDismiss={props.onClose}>
@@ -26,3 +27,13 @@ export default function DialogDeleteCampaign(props) {
         </Portal>
     );
 }
+
+
+DialogDeleteCampaign.propTypes = {
+    visible: PropTypes.bool,
+    name: PropTypes.string,
+    onClose: PropTypes.func,
+    onDelete: PropTypes.func,
+}
+
+export default DialogDeleteCampaign;

@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
+import PropTypes from 'prop-types';
 
-export default function Item(props) {
+const Item = (props) => {
     return (
         <View style={styles.root}>
             <Text style={styles.itemText}>{props.name}</Text>
@@ -20,6 +21,13 @@ export default function Item(props) {
         </View>
     );
 }
+
+Item.propTypes = {
+    name: PropTypes.string,
+    onGive: PropTypes.func,
+    onSell: PropTypes.func,
+    onDelete: PropTypes.func,
+};
 
 const styles = StyleSheet.create({
     root: {
@@ -42,3 +50,5 @@ const styles = StyleSheet.create({
         justifyContent: "flex-end",
     },
 });
+
+export default Item;

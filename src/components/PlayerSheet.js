@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
+import PropTypes from 'prop-types';
 import ItemList from "./ItemList";
 import DialogModifyValue from "./Dialogs/DialogModifyValue";
 import DialogAddItem from "./Dialogs/DialogAddItem";
 import DialogDeleteItem from "./Dialogs/DialogDeleteItem";
 
 
-export default function PlayerSheet(props) {
+const PlayerSheet = (props) => {
     const [modifyXpDialogVisible, setModifyXpDialogVisible] = useState(false);
     const [addDialogVisible, setAddDialogVisible] = useState(false);
     const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
@@ -16,12 +17,6 @@ export default function PlayerSheet(props) {
 
     const addItemHandler = (itemType, itemName) => {
         props.addItemHandler(itemType, itemName);
-    }
-
-    const sellItemHandler = (idx) => {
-        // Item type is implied to be "item"; one cannot sell skills
-        // TODO: Show modal asking the amount of gold to sell for
-        deleteItemHandler("item", idx);
     }
 
     const deleteItemHandler = (itemType, idx) => {
@@ -48,7 +43,7 @@ export default function PlayerSheet(props) {
                 visible={addDialogVisible}
                 type={selectedItemType}
                 onClose={() => setAddDialogVisible(false)}
-                onAdd={addItemHandler.bind(this, selectedItemType)}
+                onAdd={(itemName) => addItemHandler(selectedItemType, itemName)}
             />
             <DialogDeleteItem
                 visible={deleteDialogVisible}
@@ -84,8 +79,8 @@ export default function PlayerSheet(props) {
                             setSelectedItemType("item");
                             setAddDialogVisible(true);
                         }}
-                        onGive={!props.isDarkLord && props.onGiveItem}
-                        onSell={onDeleteItem.bind(this, "item")}
+                        onGive={props.isDarkLord ? null : props.onGiveItem}
+                        onSell={(idx) => onDeleteItem("item", idx)}
                     />
                     <ItemList
                         itemType="skill"
@@ -94,13 +89,27 @@ export default function PlayerSheet(props) {
                             setSelectedItemType("skill");
                             setAddDialogVisible(true);
                         }}
-                        onDelete={onDeleteItem.bind(this, "skill")}
+                        onDelete={(idx) => onDeleteItem("skill", idx)}
                     />
                 </View>
             </View >
         </View>
     );
 }
+
+PlayerSheet.propTypes = {
+    isDarkLord: PropTypes.bool,
+    name: PropTypes.string,
+    character: PropTypes.string,
+    class: PropTypes.string,
+    xp: PropTypes.number,
+    items: PropTypes.array,
+    skills: PropTypes.array,
+    onGiveItem: PropTypes.func,
+    modifyXpHandler: PropTypes.func,
+    addItemHandler: PropTypes.func,
+    deleteItemHandler: PropTypes.func,
+};
 
 const styles = StyleSheet.create({
     playerSheet: {
@@ -140,3 +149,5 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
 });
+
+export default PlayerSheet;

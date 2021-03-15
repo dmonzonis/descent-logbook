@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const APP_COMMON_KEY = "@dmonzonis-descent-logbook";
-const CAMPAIGN_SUMMARIES_KEY = APP_COMMON_KEY + "/summaries";
+const CAMPAIGN_SUMMARIES_KEY = `${APP_COMMON_KEY}/summaries`;
 
-const getCampaignKey = uid => APP_COMMON_KEY + "/campaign/" + uid;
+const getCampaignKey = uid => `${APP_COMMON_KEY}/campaign/${uid}`;
 
 const storeData = async (key, data) => {
     try {
@@ -13,6 +14,7 @@ const storeData = async (key, data) => {
     } catch (e) {
         console.error("Error saving data to device storage");
     }
+    return null;
 }
 
 const retrieveData = async (key) => {
@@ -25,13 +27,14 @@ const retrieveData = async (key) => {
     } catch (e) {
         console.error("Error retrieving data from device storage");
     }
+    return null;
 }
 
-const retrieveCampaign = async (uid) => retrieveData(getCampaignKey(uid));
+const retrieveCampaign = (uid) => retrieveData(getCampaignKey(uid));
 
-const storeCampaign = async (uid, campaign) => storeData(getCampaignKey(uid), campaign);
+const storeCampaign = (uid, campaign) => storeData(getCampaignKey(uid), campaign);
 
-const retrieveSummaries = async () => retrieveData(CAMPAIGN_SUMMARIES_KEY);
+const retrieveSummaries = () => retrieveData(CAMPAIGN_SUMMARIES_KEY);
 
 const storeNewCampaignSummary = async (summary) => {
     let summaries = await retrieveSummaries();
@@ -42,7 +45,9 @@ const storeNewCampaignSummary = async (summary) => {
 const updateCampaignSummary = async (summary) => {
     const summaries = await retrieveSummaries();
     if (!summaries) return;
-    const summariesUpdated = summaries.map(storedSummary => summary.uid === storedSummary.uid ? summary : storedSummary);
+    const summariesUpdated = summaries.map(storedSummary => {
+        return summary.uid === storedSummary.uid ? summary : storedSummary;
+    });
     storeData(CAMPAIGN_SUMMARIES_KEY, summariesUpdated);
 }
 

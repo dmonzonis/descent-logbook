@@ -1,8 +1,9 @@
 import React from 'react';
-import { Appbar } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
+import { Appbar } from 'react-native-paper';
+import PropTypes from 'prop-types';
 
-export default function CampaignTopBar(props) {
+const CampaignTopBar = (props) => {
     return (
         <Appbar style={styles.appbar}>
             <Appbar.Action
@@ -13,8 +14,14 @@ export default function CampaignTopBar(props) {
     );
 }
 
+CampaignTopBar.propTypes = {
+    onBack: PropTypes.func
+};
+
 const styles = StyleSheet.create({
     appbar: {
         backgroundColor: "white",
     }
 });
+
+export default CampaignTopBar;

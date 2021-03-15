@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
+import PropTypes from 'prop-types';
 import PlayerSheet from "./PlayerSheet"
 import DialogGiveItem from "./Dialogs/DialogGiveItem";
 import CampaignTopBar from "./CampaignTopBar";
 import GoldIndicator from "./GoldIndicator";
 
 
-export default function Campaign(props) {
+ const Campaign = (props) => {
     const [players, setPlayers] = useState(props.campaign.players);
     const [gold, setGold] = useState(props.campaign.gold);
     const [giveDialogVisible, setGiveDialogVisible] = useState(false);
@@ -104,7 +105,7 @@ export default function Campaign(props) {
                 <DialogGiveItem
                     visible={giveDialogVisible}
                     onClose={() => setGiveDialogVisible(false)}
-                    onGiveItem={giveItemHandler.bind(this, giveItemInfo.playerCharOrig, giveItemInfo.idx)}
+                    onGiveItem={(playerCharDest) => giveItemHandler(giveItemInfo.playerCharOrig, giveItemInfo.idx, playerCharDest)}
                     heros={players.filter(player => player.playerChar !== giveItemInfo.playerCharOrig && !player.isDarkLord)}
                 />
 
@@ -124,10 +125,10 @@ export default function Campaign(props) {
                             skills={player.skills}
                             isDarkLord={player.isDarkLord}
                             xp={player.xp}
-                            onGiveItem={players.length > 1 && onGiveItem.bind(this, player.playerChar)}
-                            modifyXpHandler={modifyXpHandler.bind(this, player.playerChar)}
-                            addItemHandler={addItemHandler.bind(this, player.playerChar)}
-                            giveItemHandler={giveItemHandler.bind(this, player.playerChar)}
+                            onGiveItem={players.length > 1 && ((idx) => onGiveItem(player.playerChar, idx))}
+                            modifyXpHandler={(xp) => modifyXpHandler(player.playerChar, xp)}
+                            addItemHandler={(itemType, itemName) => addItemHandler(player.playerChar, itemType, itemName)}
+                            giveItemHandler={(idx, playerCharDest) => giveItemHandler(player.playerChar, idx, playerCharDest)}
                             deleteItemHandler={(itemType, idx) => deleteItemHandler(player.playerChar, itemType, idx)}
                         />
                     );
@@ -136,6 +137,12 @@ export default function Campaign(props) {
         </View>
     );
 }
+
+Campaign.propTypes = {
+    campaign: PropTypes.object,
+    updateCampaign: PropTypes.func,
+    onBack: PropTypes.func,
+};
 
 const styles = StyleSheet.create({
     root: {
@@ -147,3 +154,5 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
     },
 });
+
+export default Campaign;

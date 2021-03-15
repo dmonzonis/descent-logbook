@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Dialog, Portal } from 'react-native-paper';
+import PropTypes from 'prop-types';
 import TextInput from "../TextInput";
 
-export default function DialogAddItem(props) {
+const DialogAddItem = (props) => {
     const [itemName, setItemName] = useState("");
 
     return (
@@ -33,3 +34,12 @@ export default function DialogAddItem(props) {
         </Portal>
     );
 }
+
+DialogAddItem.propTypes = {
+    visible: PropTypes.bool,
+    type: PropTypes.string,
+    onAdd: PropTypes.func,
+    onClose: PropTypes.func,
+};
+
+export default DialogAddItem;

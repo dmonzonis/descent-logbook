@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
+import PropTypes from 'prop-types';
 import Item from "./Item";
 
-
-export default function ItemList(props) {
+const ItemList = (props) => {
     const itemListRender = props.items.map((item, idx) => {
         return (
             <Item
@@ -34,6 +34,15 @@ export default function ItemList(props) {
     );
 }
 
+ItemList.propTypes = {
+    items: PropTypes.array,
+    itemType: PropTypes.string,
+    onAdd: PropTypes.func,
+    onGive: PropTypes.func,
+    onSell: PropTypes.func,
+    onDelete: PropTypes.func,
+};
+
 const styles = StyleSheet.create({
     root: {
         flexDirection: "row",
@@ -48,3 +57,5 @@ const styles = StyleSheet.create({
         flex: 5
     },
 });
+
+export default ItemList;

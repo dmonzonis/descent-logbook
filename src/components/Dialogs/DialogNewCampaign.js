@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import { Button, Text, Dialog, Portal } from 'react-native-paper';
+import PropTypes from 'prop-types';
 import TextInput from "../TextInput";
 import { DARK_BLUE } from "../../colors";
 
-export default function DialogNewCampaign(props) {
+const DialogNewCampaign = (props) => {
     const [name, setName] = useState("");
     const [darkLordName, setDarkLordname] = useState("");
     const [heros, setHeros] = useState([]);
@@ -169,6 +170,12 @@ export default function DialogNewCampaign(props) {
     );
 }
 
+DialogNewCampaign.propTypes = {
+    visible: PropTypes.bool,
+    onCreate: PropTypes.func,
+    onClose: PropTypes.func,
+};
+
 const styles = StyleSheet.create({
     formRoot: {
         backgroundColor: "white",
@@ -181,3 +188,5 @@ const styles = StyleSheet.create({
         flex: 1
     }
 });
+
+export default DialogNewCampaign;
