@@ -2,23 +2,23 @@ import React from 'react';
 import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
 import PropTypes from 'prop-types';
 
-const DialogDeleteCampaign = (props) => {
+const DialogDeleteCampaign = ({ visible, name, onClose, onDelete }) => {
     return (
         <Portal>
-            <Dialog visible={props.visible} onDismiss={props.onClose}>
+            <Dialog visible={visible} onDismiss={onClose}>
                 <Dialog.Title>Delete campaign</Dialog.Title>
                 <Dialog.Content>
-                    <Paragraph>Permanently delete campaign {props.name}?</Paragraph>
+                    <Paragraph>Permanently delete campaign {name}?</Paragraph>
                 </Dialog.Content>
                 <Dialog.Actions>
-                    <Button color="black" onPress={props.onClose}>
+                    <Button color="black" onPress={onClose}>
                         Cancel
                     </Button>
                     <Button
                         color="red"
                         onPress={() => {
-                            props.onDelete();
-                            props.onClose();
+                            onDelete();
+                            onClose();
                         }}
                     >
                         DELETE
@@ -34,6 +34,13 @@ DialogDeleteCampaign.propTypes = {
     name: PropTypes.string,
     onClose: PropTypes.func,
     onDelete: PropTypes.func,
+};
+
+DialogDeleteCampaign.defaultProps = {
+    visible: false,
+    name: 'campaign',
+    onClose: undefined,
+    onDelete: undefined,
 };
 
 export default DialogDeleteCampaign;

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Button, RadioButton, Dialog, Portal } from 'react-native-paper';
 import PropTypes from 'prop-types';
 
-const DialogGiveItem = (props) => {
+const DialogGiveItem = ({ visible, heros, onClose, onGiveItem }) => {
     const [selectedPlayer, setSelectedPlayer] = useState(null);
 
     const buildRadioButtons = () => {
         const radioButtons = [];
-        for (const player of props.heros) {
+        for (const player of heros) {
             radioButtons.push(
                 <RadioButton.Item
                     key={player.playerChar} // Character is always unique
@@ -21,7 +21,7 @@ const DialogGiveItem = (props) => {
 
     return (
         <Portal>
-            <Dialog visible={props.visible} onDismiss={props.onClose}>
+            <Dialog visible={visible} onDismiss={onClose}>
                 <Dialog.Title>Give item to</Dialog.Title>
                 <Dialog.Content>
                     <RadioButton.Group onValueChange={(value) => setSelectedPlayer(value)} value={selectedPlayer}>
@@ -29,16 +29,16 @@ const DialogGiveItem = (props) => {
                     </RadioButton.Group>
                 </Dialog.Content>
                 <Dialog.Actions>
-                    <Button color="black" onPress={props.onClose}>
+                    <Button color="black" onPress={onClose}>
                         Cancel
                     </Button>
                     <Button
                         color="black"
                         disabled={selectedPlayer === null}
                         onPress={() => {
-                            props.onGiveItem(selectedPlayer);
+                            onGiveItem(selectedPlayer);
                             setSelectedPlayer(null);
-                            props.onClose();
+                            onClose();
                         }}
                     >
                         Give
@@ -54,6 +54,13 @@ DialogGiveItem.propTypes = {
     heros: PropTypes.array,
     onGiveItem: PropTypes.func,
     onClose: PropTypes.func,
+};
+
+DialogGiveItem.defaultProps = {
+    visible: false,
+    heros: [],
+    onGiveItem: undefined,
+    onClose: undefined,
 };
 
 export default DialogGiveItem;

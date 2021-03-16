@@ -9,11 +9,44 @@ import {
     retrieveSummaries,
     storeNewCampaignSummary,
     deleteCampaign,
-} from '../storage.js';
+} from '../storage';
 import Campaign from './Campaign';
 import DialogNewCampaign from './Dialogs/DialogNewCampaign';
-import DialogDeleteCampaign from './Dialogs/DialogDeleteCampaign.js';
+import DialogDeleteCampaign from './Dialogs/DialogDeleteCampaign';
 import { DARK_BLUE } from '../colors';
+
+const styles = StyleSheet.create({
+    root: {
+        padding: 5,
+    },
+    campaignSummary: {
+        flex: 10,
+        justifyContent: 'center',
+    },
+    summaryRow: {
+        flexDirection: 'row',
+        borderColor: 'black',
+        borderRadius: 5,
+        borderWidth: 2,
+        marginVertical: 10,
+        padding: 5,
+    },
+    summaryText: {
+        color: 'black',
+        fontSize: 16,
+        paddingHorizontal: 10,
+    },
+    title: {
+        marginVertical: 10,
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        fontSize: 24,
+    },
+    deleteButton: {
+        flex: 1,
+        alignSelf: 'flex-end',
+    },
+});
 
 export default function CampaignSelector() {
     const [loadedCampaignUid, setLoadedCampaignUid] = useState(null);
@@ -65,8 +98,8 @@ export default function CampaignSelector() {
     );
 
     if (!areSummariesLoaded) {
-        retrieveSummaries().then((summaries) => {
-            setSummaries(summaries);
+        retrieveSummaries().then((retrievedSummaries) => {
+            setSummaries(retrievedSummaries);
             setAreSummariesLoaded(true);
         });
         return loadingView;
@@ -125,36 +158,3 @@ export default function CampaignSelector() {
         <Campaign campaign={loadedCampaign} updateCampaign={updateCampaign} onBack={() => setLoadedCampaign(null)} />
     );
 }
-
-const styles = StyleSheet.create({
-    root: {
-        padding: 5,
-    },
-    campaignSummary: {
-        flex: 10,
-        justifyContent: 'center',
-    },
-    summaryRow: {
-        flexDirection: 'row',
-        borderColor: 'black',
-        borderRadius: 5,
-        borderWidth: 2,
-        marginVertical: 10,
-        padding: 5,
-    },
-    summaryText: {
-        color: 'black',
-        fontSize: 16,
-        paddingHorizontal: 10,
-    },
-    title: {
-        marginVertical: 10,
-        alignSelf: 'center',
-        fontWeight: 'bold',
-        fontSize: 24,
-    },
-    deleteButton: {
-        flex: 1,
-        alignSelf: 'flex-end',
-    },
-});

@@ -3,26 +3,6 @@ import { View, Text, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import PropTypes from 'prop-types';
 
-const Item = (props) => {
-    return (
-        <View style={styles.root}>
-            <Text style={styles.itemText}>{props.name}</Text>
-            <View style={styles.buttonArea}>
-                {props.onGive && <IconButton icon="share" color="black" size={20} onPress={props.onGive} />}
-                {props.onSell && <IconButton icon="delete" color="black" size={20} onPress={props.onSell} />}
-                {props.onDelete && <IconButton icon="delete" color="black" size={20} onPress={props.onDelete} />}
-            </View>
-        </View>
-    );
-};
-
-Item.propTypes = {
-    name: PropTypes.string,
-    onGive: PropTypes.func,
-    onSell: PropTypes.func,
-    onDelete: PropTypes.func,
-};
-
 const styles = StyleSheet.create({
     root: {
         flexDirection: 'row',
@@ -44,5 +24,32 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
 });
+
+const Item = ({ name, onGive, onSell, onDelete }) => {
+    return (
+        <View style={styles.root}>
+            <Text style={styles.itemText}>{name}</Text>
+            <View style={styles.buttonArea}>
+                {onGive && <IconButton icon="share" color="black" size={20} onPress={onGive} />}
+                {onSell && <IconButton icon="delete" color="black" size={20} onPress={onSell} />}
+                {onDelete && <IconButton icon="delete" color="black" size={20} onPress={onDelete} />}
+            </View>
+        </View>
+    );
+};
+
+Item.propTypes = {
+    name: PropTypes.string,
+    onGive: PropTypes.func,
+    onSell: PropTypes.func,
+    onDelete: PropTypes.func,
+};
+
+Item.defaultProps = {
+    name: '',
+    onGive: undefined,
+    onSell: undefined,
+    onDelete: undefined,
+};
 
 export default Item;

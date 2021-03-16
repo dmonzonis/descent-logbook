@@ -3,17 +3,17 @@ import { TextInput as TextInputPaper } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { DARK_BLUE } from '../colors';
 
-const TextInput = (props) => {
+const TextInput = ({ label, defaultValue, value, style, dense, onChangeText }) => {
     return (
         <TextInputPaper
-            label={props.label}
-            defaultValue={props.defaultValue}
-            value={props.value}
-            style={props.style}
-            dense={props.dense || false}
+            label={label}
+            defaultValue={defaultValue}
+            value={value}
+            style={style}
+            dense={dense}
             selectionColor={DARK_BLUE}
             underlineColor={DARK_BLUE}
-            onChangeText={props.onChangeText}
+            onChangeText={onChangeText}
         />
     );
 };
@@ -25,6 +25,15 @@ TextInput.propTypes = {
     style: PropTypes.object,
     dense: PropTypes.bool,
     onChangeText: PropTypes.func,
+};
+
+TextInput.defaultProps = {
+    label: '',
+    defaultValue: '',
+    value: null,
+    style: undefined,
+    dense: false,
+    onChangeText: undefined,
 };
 
 export default TextInput;

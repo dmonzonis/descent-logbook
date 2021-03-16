@@ -5,13 +5,26 @@ import PropTypes from 'prop-types';
 import TextInput from '../TextInput';
 import { DARK_BLUE } from '../../colors';
 
-const DialogNewCampaign = (props) => {
+const styles = StyleSheet.create({
+    formRoot: {
+        backgroundColor: 'white',
+        height: '80%',
+    },
+    heroData: {
+        flexDirection: 'row',
+    },
+    heroTextInput: {
+        flex: 1,
+    },
+});
+
+const DialogNewCampaign = ({ visible, onClose, onCreate }) => {
     const [name, setName] = useState('');
     const [heros, setHeros] = useState([{ playerChar: '', playerClass: '' }]);
 
     const addHero = () => {
-        setHeros((heros) => [
-            ...heros,
+        setHeros((newHeros) => [
+            ...newHeros,
             {
                 playerChar: '',
                 playerClass: '',
@@ -65,19 +78,17 @@ const DialogNewCampaign = (props) => {
     };
 
     const modifyHeroAttrib = (idx, type, attrib) => {
-        const herosUpdated = heros.map((hero, heroIdx) => {
-            if (heroIdx === idx) {
-                switch (type) {
-                    case 'char':
-                        hero.playerChar = attrib;
-                        break;
-                    case 'class':
-                        hero.playerClass = attrib;
-                        break;
-                }
-            }
-            return hero;
-        });
+        const herosUpdated = heros.slice();
+        switch (type) {
+            case 'char':
+                herosUpdated[idx].playerChar = attrib;
+                break;
+            case 'class':
+                herosUpdated[idx].playerClass = attrib;
+                break;
+            default:
+                break;
+        }
         setHeros(herosUpdated);
     };
 
@@ -86,14 +97,14 @@ const DialogNewCampaign = (props) => {
         setHeros([[{ playerChar: '', playerClass: '' }]]);
     };
 
-    const onClose = () => {
-        props.onClose();
+    const onCloseHandler = () => {
+        onClose();
         cleanForm();
     };
 
     return (
         <Portal>
-            <Dialog visible={props.visible} onDismiss={onClose} style={styles.formRoot}>
+            <Dialog visible={visible} onDismiss={onCloseHandler} style={styles.formRoot}>
                 <Dialog.Title>New campaign</Dialog.Title>
                 <Dialog.ScrollArea>
                     <ScrollView>
@@ -102,7 +113,7 @@ const DialogNewCampaign = (props) => {
                             label="Campaign name"
                             defaultValue={name}
                             onChangeText={(text) => setName(text)}
-                            dense={true}
+                            dense
                         />
 
                         {heros.map((hero, idx) => {
@@ -113,14 +124,14 @@ const DialogNewCampaign = (props) => {
                                         style={styles.heroTextInput}
                                         label="Character"
                                         defaultValue={hero.playerChar}
-                                        dense={true}
+                                        dense
                                         onChangeText={(text) => modifyHeroAttrib(idx, 'char', text)}
                                     />
                                     <TextInput
                                         style={styles.heroTextInput}
                                         label="Class"
                                         defaultValue={hero.playerClass}
-                                        dense={true}
+                                        dense
                                         onChangeText={(text) => modifyHeroAttrib(idx, 'class', text)}
                                     />
                                 </View>
@@ -135,7 +146,7 @@ const DialogNewCampaign = (props) => {
                     </ScrollView>
                 </Dialog.ScrollArea>
                 <Dialog.Actions>
-                    <Button color="red" onPress={onClose}>
+                    <Button color="red" onPress={onCloseHandler}>
                         Cancel
                     </Button>
                     <Button
@@ -143,8 +154,8 @@ const DialogNewCampaign = (props) => {
                         color={DARK_BLUE}
                         onPress={() => {
                             const data = completeData();
-                            props.onCreate(name, data);
-                            onClose();
+                            onCreate(name, data);
+                            onCloseHandler();
                         }}
                     >
                         Add
@@ -161,17 +172,10 @@ DialogNewCampaign.propTypes = {
     onClose: PropTypes.func,
 };
 
-const styles = StyleSheet.create({
-    formRoot: {
-        backgroundColor: 'white',
-        height: '80%',
-    },
-    heroData: {
-        flexDirection: 'row',
-    },
-    heroTextInput: {
-        flex: 1,
-    },
-});
+DialogNewCampaign.defaultProps = {
+    visible: false,
+    onCreate: undefined,
+    onClose: undefined,
+};
 
 export default DialogNewCampaign;

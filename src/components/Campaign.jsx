@@ -6,53 +6,55 @@ import DialogGiveItem from './Dialogs/DialogGiveItem';
 import CampaignTopBar from './CampaignTopBar';
 import GoldIndicator from './GoldIndicator';
 
-const Campaign = (props) => {
-    const [players, setPlayers] = useState(props.campaign.players);
-    const [gold, setGold] = useState(props.campaign.gold);
+const styles = StyleSheet.create({
+    root: {
+        flex: 1,
+    },
+    sheetContainer: {
+        flex: 1,
+        backgroundColor: 'white',
+        paddingHorizontal: 5,
+    },
+});
+
+const Campaign = ({ campaign, updateCampaign, onBack }) => {
+    const [players, setPlayers] = useState(campaign.players);
+    const [gold, setGold] = useState(campaign.gold);
     const [giveDialogVisible, setGiveDialogVisible] = useState(false);
     const [giveItemInfo, setGiveItemInfo] = useState({ playerCharOrig: null, idx: null });
 
-    const _addItem = (players, playerChar, itemType, itemName) => {
-        const playersUpdated = players.map((player) => {
+    const addItemAux = (playersState, playerChar, itemType, itemName) => {
+        const playersUpdated = playersState.map((player) => {
             if (player.playerChar === playerChar) {
                 if (itemType === 'item') {
                     return { ...player, items: [...player.items, itemName] };
-                } else {
-                    return { ...player, skills: [...player.skills, itemName] };
                 }
-            } else {
-                return player;
+                return { ...player, skills: [...player.skills, itemName] };
             }
+            return player;
         });
         return playersUpdated;
     };
 
-    const _deleteItem = (players, playerChar, itemType, idx) => {
-        const playersUpdated = players.map((player) => {
+    const deleteItemAux = (playersState, playerChar, itemType, idx) => {
+        const playersUpdated = playersState.map((player) => {
             if (player.playerChar === playerChar) {
                 if (itemType === 'item') {
                     return { ...player, items: player.items.filter((_, index) => index !== idx) };
-                } else {
-                    return { ...player, skills: player.skills.filter((_, index) => index !== idx) };
                 }
-            } else {
-                return player;
+                return { ...player, skills: player.skills.filter((_, index) => index !== idx) };
             }
+            return player;
         });
         return playersUpdated;
-    };
-
-    const updateCampaign = (data) => {
-        props.updateCampaign(data);
     };
 
     const modifyXpHandler = (playerChar, xp) => {
         const playersUpdated = players.map((player) => {
             if (player.playerChar === playerChar) {
                 return { ...player, xp: player.xp + xp };
-            } else {
-                return player;
             }
+            return player;
         });
         setPlayers(playersUpdated);
         updateCampaign({ gold, players: playersUpdated });
@@ -65,14 +67,14 @@ const Campaign = (props) => {
     };
 
     const addItemHandler = (playerChar, itemType, itemName) => {
-        const playersUpdated = _addItem(players, playerChar, itemType, itemName);
+        const playersUpdated = addItemAux(players, playerChar, itemType, itemName);
         setPlayers(playersUpdated);
         updateCampaign({ gold, players: playersUpdated });
         return playersUpdated;
     };
 
     const deleteItemHandler = (playerChar, itemType, idx) => {
-        const playersUpdated = _deleteItem(players, playerChar, itemType, idx);
+        const playersUpdated = deleteItemAux(players, playerChar, itemType, idx);
         setPlayers(playersUpdated);
         updateCampaign({ gold, players: playersUpdated });
     };
@@ -87,8 +89,8 @@ const Campaign = (props) => {
         }
         if (!itemName) return;
         let playersCopy = players.slice();
-        playersCopy = _addItem(playersCopy, playerCharDest, 'item', itemName);
-        playersCopy = _deleteItem(playersCopy, playerCharOrig, 'item', idx);
+        playersCopy = addItemAux(playersCopy, playerCharDest, 'item', itemName);
+        playersCopy = deleteItemAux(playersCopy, playerCharOrig, 'item', idx);
         setPlayers(playersCopy);
         updateCampaign({ gold, players: playersCopy });
     };
@@ -100,7 +102,7 @@ const Campaign = (props) => {
 
     return (
         <View style={styles.root}>
-            <CampaignTopBar onBack={props.onBack} />
+            <CampaignTopBar onBack={onBack} />
             <ScrollView style={styles.sheetContainer}>
                 <DialogGiveItem
                     visible={giveDialogVisible}
@@ -121,7 +123,7 @@ const Campaign = (props) => {
                             key={player.playerChar} // Character is always unique
                             name={player.playerName}
                             character={player.playerChar}
-                            class={player.playerClass}
+                            playerClass={player.playerClass}
                             items={player.items}
                             skills={player.skills}
                             isDarkLord={player.isDarkLord}
@@ -149,15 +151,10 @@ Campaign.propTypes = {
     onBack: PropTypes.func,
 };
 
-const styles = StyleSheet.create({
-    root: {
-        flex: 1,
-    },
-    sheetContainer: {
-        flex: 1,
-        backgroundColor: 'white',
-        paddingHorizontal: 5,
-    },
-});
+Campaign.defaultProps = {
+    campaign: undefined,
+    updateCampaign: undefined,
+    onBack: undefined,
+};
 
 export default Campaign;
