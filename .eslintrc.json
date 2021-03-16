@@ -17,6 +17,11 @@
     "plugins": [
         "react"
     ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
     "rules": {
         "accessor-pairs": "error",
         "array-bracket-newline": "off",
