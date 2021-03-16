@@ -30,10 +30,10 @@ const PlayerSheet = (props) => {
     }
 
     const getCharDescription = () => {
-        if (!props.isDarkLord) {
-            return <Text style={styles.characterText}>{props.character} | {props.class}</Text>;
+        if (props.isDarkLord) {
+            return null;
         } else {
-            return <Text style={styles.characterText}>{props.character}</Text>;
+            return <Text style={styles.classText}>{props.class}</Text>;
         }
     }
 
@@ -63,7 +63,7 @@ const PlayerSheet = (props) => {
 
             <View style={styles.playerSheet}>
                 <View style={styles.nameArea}>
-                    <Text style={styles.playerName}>{props.name}</Text>
+                    <Text style={styles.playerChar}>{props.character}</Text>
                     <View style={styles.xpArea}>
                         <Text style={styles.xpText}>XP: {props.xp}</Text>
                         <IconButton icon="pencil" color="black" size={20} onPress={() => setModifyXpDialogVisible(true)} />
@@ -128,11 +128,11 @@ const styles = StyleSheet.create({
         alignContent: "stretch",
         alignItems: "center",
     },
-    playerName: {
+    playerChar: {
         fontSize: 24,
         marginRight: 5,
     },
-    characterText: {
+    classText: {
         fontSize: 13,
         fontStyle: "italic",
     },

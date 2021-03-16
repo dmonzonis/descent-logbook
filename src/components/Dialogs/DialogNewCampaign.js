@@ -7,12 +7,10 @@ import { DARK_BLUE } from "../../colors";
 
 const DialogNewCampaign = (props) => {
     const [name, setName] = useState("");
-    const [darkLordName, setDarkLordname] = useState("");
-    const [heros, setHeros] = useState([]);
+    const [heros, setHeros] = useState([{ playerChar: "", playerClass: "" }]);
 
     const addHero = () => {
         setHeros(heros => [...heros, {
-            playerName: "",
             playerChar: "",
             playerClass: ""
         }]);
@@ -29,7 +27,6 @@ const DialogNewCampaign = (props) => {
             }
         });
         players = [...players, {
-            playerName: darkLordName,
             playerChar: "Dark Lord",
             playerClass: null,
             isDarkLord: true,
@@ -45,13 +42,11 @@ const DialogNewCampaign = (props) => {
 
     const isThereMissingData = () => {
         if (heros.length === 0 ||
-            name === "" ||
-            darkLordName === "") {
+            name === "") {
             return true;
         }
         for (const hero of heros) {
-            if (hero.playerName === "" ||
-                hero.playerChar === "" ||
+            if (hero.playerChar === "" ||
                 hero.playerClass === "") {
                 return true;
             }
@@ -63,9 +58,6 @@ const DialogNewCampaign = (props) => {
         const herosUpdated = heros.map((hero, heroIdx) => {
             if (heroIdx === idx) {
                 switch (type) {
-                    case "name":
-                        hero.playerName = attrib;
-                        break;
                     case "char":
                         hero.playerChar = attrib;
                         break;
@@ -81,8 +73,7 @@ const DialogNewCampaign = (props) => {
 
     const cleanForm = () => {
         setName("");
-        setDarkLordname("");
-        setHeros([]);
+        setHeros([[{ playerChar: "", playerClass: "" }]]);
     }
 
     const onClose = () => {
@@ -108,40 +99,24 @@ const DialogNewCampaign = (props) => {
                             dense={true}
                         />
 
-                        <Text>Dark Lord</Text>
-                        <TextInput
-                            label="Dark Lord name"
-                            defaultValue={darkLordName}
-                            onChangeText={text => setDarkLordname(text)}
-                            dense={true}
-                        />
-
                         {heros.map((hero, idx) => {
                             return (
                                 <View key={idx}>
                                     <Text>Hero {idx + 1}</Text>
                                     <TextInput
-                                        label="Hero name"
-                                        defaultValue={hero.playerName}
+                                        style={styles.heroTextInput}
+                                        label="Character"
+                                        defaultValue={hero.playerChar}
                                         dense={true}
-                                        onChangeText={text => modifyHeroAttrib(idx, "name", text)}
+                                        onChangeText={text => modifyHeroAttrib(idx, "char", text)}
                                     />
-                                    <View style={styles.heroData}>
-                                        <TextInput
-                                            style={styles.heroTextInput}
-                                            label="Character"
-                                            defaultValue={hero.playerChar}
-                                            dense={true}
-                                            onChangeText={text => modifyHeroAttrib(idx, "char", text)}
-                                        />
-                                        <TextInput
-                                            style={styles.heroTextInput}
-                                            label="Class"
-                                            defaultValue={hero.playerClass}
-                                            dense={true}
-                                            onChangeText={text => modifyHeroAttrib(idx, "class", text)}
-                                        />
-                                    </View>
+                                    <TextInput
+                                        style={styles.heroTextInput}
+                                        label="Class"
+                                        defaultValue={hero.playerClass}
+                                        dense={true}
+                                        onChangeText={text => modifyHeroAttrib(idx, "class", text)}
+                                    />
                                 </View>
                             );
                         })}

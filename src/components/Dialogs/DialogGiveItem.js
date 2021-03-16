@@ -10,7 +10,7 @@ const DialogGiveItem = (props) => {
         for (const player of props.heros) {
             radioButtons.push(<RadioButton.Item
                 key={player.playerChar}  // Character is always unique
-                label={player.playerName}
+                label={player.playerChar}
                 value={player.playerChar}
             />);
         }
