@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import PropTypes from 'prop-types';
-import DialogModifyValue from './Dialogs/DialogModifyValue';
+import DialogModifyNumericValue from './Dialogs/DialogModifyNumericValue';
 
 const GoldIndicator = (props) => {
     const [modifyGoldDialogVisible, setModifyGoldDialogVisible] = useState(false);
 
     return (
         <View>
-            <DialogModifyValue
+            <DialogModifyNumericValue
                 name="Gold"
                 visible={modifyGoldDialogVisible}
+                currentValue={props.gold}
+                atomicAmount={25}
                 onClose={() => setModifyGoldDialogVisible(false)}
                 onModifyValue={props.onModifyGold}
             />
@@ -31,7 +33,7 @@ const GoldIndicator = (props) => {
 
 GoldIndicator.propTypes = {
     onModifyGold: PropTypes.func,
-    gold: PropTypes.string
+    gold: PropTypes.number
 };
 
 export default GoldIndicator;

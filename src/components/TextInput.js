@@ -8,6 +8,7 @@ const TextInput = (props) => {
         <TextInputPaper
             label={props.label}
             defaultValue={props.defaultValue}
+            value={props.value}
             style={props.style}
             dense={props.dense || false}
             selectionColor={DARK_BLUE}
@@ -20,6 +21,7 @@ const TextInput = (props) => {
 TextInput.propTypes = {
     label: PropTypes.string,
     defaultValue: PropTypes.string,
+    value: PropTypes.string,
     style: PropTypes.object,
     dense: PropTypes.bool,
     onChangeText: PropTypes.func,

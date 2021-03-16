@@ -50,7 +50,7 @@ import GoldIndicator from "./GoldIndicator";
     const modifyXpHandler = (playerChar, xp) => {
         const playersUpdated = players.map(player => {
             if (player.playerChar === playerChar) {
-                return { ...player, xp };
+                return { ...player, xp: player.xp + xp };
             } else {
                 return player;
             }
@@ -60,8 +60,9 @@ import GoldIndicator from "./GoldIndicator";
     }
 
     const modifyGoldHandler = (amount) => {
-        setGold(amount);
-        updateCampaign({ players, gold: amount });
+        const newGold = gold + amount;
+        setGold(newGold);
+        updateCampaign({ players, gold: newGold });
     }
 
     const addItemHandler = (playerChar, itemType, itemName) => {

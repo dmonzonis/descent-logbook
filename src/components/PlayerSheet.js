@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import ItemList from "./ItemList";
-import DialogModifyValue from "./Dialogs/DialogModifyValue";
+import DialogModifyNumericValue from "./Dialogs/DialogModifyNumericValue";
 import DialogAddItem from "./Dialogs/DialogAddItem";
 import DialogDeleteItem from "./Dialogs/DialogDeleteItem";
 
@@ -52,9 +52,11 @@ const PlayerSheet = (props) => {
                 onClose={() => setDeleteDialogVisible(false)}
                 onDelete={() => deleteItemHandler(selectedItemType, selectedItemIndex)}
             />
-            <DialogModifyValue
+            <DialogModifyNumericValue
                 name="XP"
                 visible={modifyXpDialogVisible}
+                currentValue={props.xp}
+                atomicAmount={1}
                 onClose={() => setModifyXpDialogVisible(false)}
                 onModifyValue={props.modifyXpHandler}
             />
