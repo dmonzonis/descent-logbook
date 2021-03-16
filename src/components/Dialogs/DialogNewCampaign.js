@@ -40,16 +40,22 @@ const DialogNewCampaign = (props) => {
         };
     }
 
-    const isThereMissingData = () => {
+    const isDataInvalid = () => {
         if (heros.length === 0 ||
             name === "") {
             return true;
         }
+        const heroChars = new Set();
         for (const hero of heros) {
             if (hero.playerChar === "" ||
                 hero.playerClass === "") {
                 return true;
             }
+            heroChars.add(hero.playerChar);
+        }
+        if (heroChars.size !== heros.length || heroChars.has("Dark Lord")) {
+            // There is a repeated character, they have to be unique
+            return true;
         }
         return false;
     }
@@ -129,7 +135,7 @@ const DialogNewCampaign = (props) => {
                 <Dialog.Actions>
                     <Button color="red" onPress={onClose}>Cancel</Button>
                     <Button
-                        disabled={isThereMissingData()}
+                        disabled={isDataInvalid()}
                         color={DARK_BLUE}
                         onPress={() => {
                             const data = completeData();
