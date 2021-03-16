@@ -8,19 +8,13 @@ const Item = (props) => {
         <View style={styles.root}>
             <Text style={styles.itemText}>{props.name}</Text>
             <View style={styles.buttonArea}>
-                {props.onGive &&
-                    <IconButton icon="share" color="black" size={20} onPress={props.onGive} />
-                }
-                {props.onSell &&
-                    <IconButton icon="delete" color="black" size={20} onPress={props.onSell} />
-                }
-                {props.onDelete &&
-                    <IconButton icon="delete" color="black" size={20} onPress={props.onDelete} />
-                }
+                {props.onGive && <IconButton icon="share" color="black" size={20} onPress={props.onGive} />}
+                {props.onSell && <IconButton icon="delete" color="black" size={20} onPress={props.onSell} />}
+                {props.onDelete && <IconButton icon="delete" color="black" size={20} onPress={props.onDelete} />}
             </View>
         </View>
     );
-}
+};
 
 Item.propTypes = {
     name: PropTypes.string,
@@ -31,13 +25,13 @@ Item.propTypes = {
 
 const styles = StyleSheet.create({
     root: {
-        flexDirection: "row",
-        alignContent: "stretch",
-        alignItems: "center",
+        flexDirection: 'row',
+        alignContent: 'stretch',
+        alignItems: 'center',
         paddingVertical: 3,
         paddingHorizontal: 10,
         marginBottom: 7,
-        borderColor: "black",
+        borderColor: 'black',
         borderWidth: 1,
         borderRadius: 5,
     },
@@ -45,9 +39,9 @@ const styles = StyleSheet.create({
         flex: 2,
     },
     buttonArea: {
-        flexDirection: "row",
+        flexDirection: 'row',
         flex: 1,
-        justifyContent: "flex-end",
+        justifyContent: 'flex-end',
     },
 });
 

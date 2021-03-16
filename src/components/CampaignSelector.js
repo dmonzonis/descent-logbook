@@ -8,13 +8,12 @@ import {
     retrieveCampaign,
     retrieveSummaries,
     storeNewCampaignSummary,
-    deleteCampaign
-} from "../storage.js"
-import Campaign from "./Campaign";
-import DialogNewCampaign from "./Dialogs/DialogNewCampaign";
+    deleteCampaign,
+} from '../storage.js';
+import Campaign from './Campaign';
+import DialogNewCampaign from './Dialogs/DialogNewCampaign';
 import DialogDeleteCampaign from './Dialogs/DialogDeleteCampaign.js';
-import { DARK_BLUE } from "../colors";
-
+import { DARK_BLUE } from '../colors';
 
 export default function CampaignSelector() {
     const [loadedCampaignUid, setLoadedCampaignUid] = useState(null);
@@ -27,14 +26,14 @@ export default function CampaignSelector() {
 
     const updateCampaign = (campaignData) => {
         storeCampaign(loadedCampaignUid, campaignData);
-    }
+    };
 
     const addNewCampaignHandler = (name, data) => {
         const uid = uuidv4();
         const summary = {
             uid,
             name,
-            completed: false
+            completed: false,
         };
         deleteCampaign(uid).then(() => {
             storeNewCampaignSummary(summary);
@@ -43,26 +42,30 @@ export default function CampaignSelector() {
 
         const summariesUpdated = summaries || [];
         setSummaries([...summariesUpdated, summary]);
-    }
+    };
 
     const deleteCampaignHandler = (uid) => {
         deleteCampaign(uid);
-        const summariesUpdated = summaries.filter(summary => summary.uid !== uid);
+        const summariesUpdated = summaries.filter((summary) => summary.uid !== uid);
         setSummaries(summariesUpdated);
         setSelectedCampaignSummary(null);
-    }
+    };
 
     const loadCampaign = (uid) => {
-        retrieveCampaign(uid).then(campaign => {
+        retrieveCampaign(uid).then((campaign) => {
             setLoadedCampaign(campaign);
             setLoadedCampaignUid(uid);
         });
-    }
+    };
 
-    const loadingView = <View><Text>Loading...</Text></View>;
+    const loadingView = (
+        <View>
+            <Text>Loading...</Text>
+        </View>
+    );
 
     if (!areSummariesLoaded) {
-        retrieveSummaries().then(summaries => {
+        retrieveSummaries().then((summaries) => {
             setSummaries(summaries);
             setAreSummariesLoaded(true);
         });
@@ -74,7 +77,7 @@ export default function CampaignSelector() {
             <ScrollView style={styles.root}>
                 <DialogNewCampaign
                     visible={createCampaignDialogVisible}
-                    existingNames={summaries && summaries.map(summary => summary.name)}
+                    existingNames={summaries && summaries.map((summary) => summary.name)}
                     onCreate={addNewCampaignHandler}
                     onClose={() => setCreateCampaignDialogVisible(false)}
                 />
@@ -85,51 +88,41 @@ export default function CampaignSelector() {
                     onClose={() => setDeleteCampaignDialogVisible(false)}
                 />
 
-                <Text style={styles.title}>
-                    CAMPAIGNS
-                </Text>
+                <Text style={styles.title}>CAMPAIGNS</Text>
 
-                {summaries && summaries.map(summary => {
-                    return (
-                        <View key={summary.uid} style={styles.summaryRow}>
-                            <View style={styles.campaignSummary}>
-                                <Pressable onPress={() => loadCampaign(summary.uid)}>
-                                    <View>
-                                        <Text style={styles.summaryText}>
-                                            {summary.name}
-                                        </Text>
-                                    </View>
-                                </Pressable>
+                {summaries &&
+                    summaries.map((summary) => {
+                        return (
+                            <View key={summary.uid} style={styles.summaryRow}>
+                                <View style={styles.campaignSummary}>
+                                    <Pressable onPress={() => loadCampaign(summary.uid)}>
+                                        <View>
+                                            <Text style={styles.summaryText}>{summary.name}</Text>
+                                        </View>
+                                    </Pressable>
+                                </View>
+                                <IconButton
+                                    icon="delete"
+                                    color="red"
+                                    size={18}
+                                    style={styles.deleteButton}
+                                    onPress={() => {
+                                        setSelectedCampaignSummary(summary);
+                                        setDeleteCampaignDialogVisible(true);
+                                    }}
+                                />
                             </View>
-                            <IconButton
-                                icon="delete"
-                                color="red"
-                                size={18}
-                                style={styles.deleteButton}
-                                onPress={() => {
-                                    setSelectedCampaignSummary(summary);
-                                    setDeleteCampaignDialogVisible(true);
-                                }}
-                            />
-                        </View>
-                    );
-                })}
-                <Button
-                    onPress={() => setCreateCampaignDialogVisible(true)}
-                    color={DARK_BLUE}
-                >
+                        );
+                    })}
+                <Button onPress={() => setCreateCampaignDialogVisible(true)} color={DARK_BLUE}>
                     Add new campaign
-                    </Button>
+                </Button>
             </ScrollView>
         );
     }
 
     return (
-        <Campaign
-            campaign={loadedCampaign}
-            updateCampaign={updateCampaign}
-            onBack={() => setLoadedCampaign(null)}
-        />
+        <Campaign campaign={loadedCampaign} updateCampaign={updateCampaign} onBack={() => setLoadedCampaign(null)} />
     );
 }
 
@@ -139,29 +132,29 @@ const styles = StyleSheet.create({
     },
     campaignSummary: {
         flex: 10,
-        justifyContent: "center",
+        justifyContent: 'center',
     },
     summaryRow: {
-        flexDirection: "row",
-        borderColor: "black",
+        flexDirection: 'row',
+        borderColor: 'black',
         borderRadius: 5,
         borderWidth: 2,
         marginVertical: 10,
         padding: 5,
     },
     summaryText: {
-        color: "black",
+        color: 'black',
         fontSize: 16,
         paddingHorizontal: 10,
     },
     title: {
         marginVertical: 10,
-        alignSelf: "center",
-        fontWeight: "bold",
+        alignSelf: 'center',
+        fontWeight: 'bold',
         fontSize: 24,
     },
     deleteButton: {
         flex: 1,
-        alignSelf: "flex-end"
-    }
+        alignSelf: 'flex-end',
+    },
 });

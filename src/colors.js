@@ -1,5 +1,3 @@
-const DARK_BLUE = "#1414c4";
+const DARK_BLUE = '#1414c4';
 
-export {
-    DARK_BLUE
-}
+export { DARK_BLUE };

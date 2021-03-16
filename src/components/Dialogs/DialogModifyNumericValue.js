@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Button, Dialog, Portal, Paragraph } from 'react-native-paper';
 import PropTypes from 'prop-types';
-import TextInput from "../TextInput";
+import TextInput from '../TextInput';
 import { DARK_BLUE } from '../../colors';
 
 const DialogModifyNumericValue = (props) => {
     const [value, setValue] = useState(0);
-    const [text, setText] = useState("");
+    const [text, setText] = useState('');
     const [isValidValue, setIsValidvalue] = useState(true);
 
     const checkIsValidValue = (value) => props.currentValue + value >= 0;
@@ -21,20 +21,20 @@ const DialogModifyNumericValue = (props) => {
         }
         setValue(intValue);
         setIsValidvalue(true);
-    }
+    };
 
     const updateValue = (amount) => {
         if (!isValidValue) return;
         if (checkIsValidValue(value + amount)) {
             setValue(value + amount);
         }
-    }
+    };
 
     const onClose = () => {
         setValue(0);
-        setText("0");
+        setText('0');
         props.onClose();
-    }
+    };
 
     const getAtomicAmount = () => props.atomicAmount || 1;
 
@@ -52,13 +52,14 @@ const DialogModifyNumericValue = (props) => {
                             mode="contained"
                             style={styles.modifierButton}
                             color={DARK_BLUE}
-                            onPress={() => updateValue(-getAtomicAmount())}>
+                            onPress={() => updateValue(-getAtomicAmount())}
+                        >
                             -{getAtomicAmount()}
                         </Button>
                         <TextInput
                             label={props.name}
                             value={isValidValue ? value.toString() : text}
-                            defaultValue={"0"}
+                            defaultValue={'0'}
                             keyboardType={props.keyboardType}
                             style={styles.input}
                             onChangeText={setValueWithCheck}
@@ -67,7 +68,8 @@ const DialogModifyNumericValue = (props) => {
                             mode="contained"
                             style={styles.modifierButton}
                             color={DARK_BLUE}
-                            onPress={() => updateValue(getAtomicAmount())}>
+                            onPress={() => updateValue(getAtomicAmount())}
+                        >
                             +{getAtomicAmount()}
                         </Button>
                     </View>
@@ -75,27 +77,33 @@ const DialogModifyNumericValue = (props) => {
                     <View style={styles.row}>
                         <Text>{props.currentValue}</Text>
                         <Text style={value < 0 ? styles.textRed : styles.textGreen}>
-                            {` ${value < 0 ? "-" : "+"} ${Math.abs(value)}`}
+                            {` ${value < 0 ? '-' : '+'} ${Math.abs(value)}`}
                         </Text>
-                        <Text> = {props.currentValue + value} {props.name}</Text>
+                        <Text>
+                            {' '}
+                            = {props.currentValue + value} {props.name}
+                        </Text>
                     </View>
                 </Dialog.Content>
                 <Dialog.Actions>
-                    <Button color="black" onPress={onClose}>Cancel</Button>
+                    <Button color="black" onPress={onClose}>
+                        Cancel
+                    </Button>
                     <Button
                         color="black"
                         disabled={!isValidValue}
                         onPress={() => {
                             props.onModifyValue(value);
                             onClose();
-                        }}>
+                        }}
+                    >
                         Accept
-                        </Button>
+                    </Button>
                 </Dialog.Actions>
             </Dialog>
         </Portal>
     );
-}
+};
 
 DialogModifyNumericValue.propTypes = {
     visible: PropTypes.bool,
@@ -114,21 +122,20 @@ const styles = StyleSheet.create({
         height: 60,
     },
     row: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     textGreen: {
-        color: "green"
+        color: 'green',
     },
     textRed: {
-        color: "red"
+        color: 'red',
     },
     modifierButton: {
         height: 40,
         marginHorizontal: 5,
-    }
+    },
 });
-
 
 export default DialogModifyNumericValue;

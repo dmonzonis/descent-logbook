@@ -8,25 +8,26 @@ const DialogDeleteItem = (props) => {
             <Dialog visible={props.visible} onDismiss={props.onClose}>
                 <Dialog.Title>Delete {props.type}</Dialog.Title>
                 <Dialog.Content>
-                    <Paragraph>
-                        Are you sure you want to delete {props.itemName}?
-                    </Paragraph>
+                    <Paragraph>Are you sure you want to delete {props.itemName}?</Paragraph>
                 </Dialog.Content>
                 <Dialog.Actions>
-                    <Button color="black" onPress={props.onClose}>Cancel</Button>
+                    <Button color="black" onPress={props.onClose}>
+                        Cancel
+                    </Button>
                     <Button
                         color="red"
                         onPress={() => {
                             props.onDelete();
                             props.onClose();
-                        }}>
+                        }}
+                    >
                         DELETE
-                        </Button>
+                    </Button>
                 </Dialog.Actions>
             </Dialog>
         </Portal>
     );
-}
+};
 
 DialogDeleteItem.propTypes = {
     visible: PropTypes.bool,

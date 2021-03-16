@@ -2,32 +2,31 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import PropTypes from 'prop-types';
-import ItemList from "./ItemList";
-import DialogModifyNumericValue from "./Dialogs/DialogModifyNumericValue";
-import DialogAddItem from "./Dialogs/DialogAddItem";
-import DialogDeleteItem from "./Dialogs/DialogDeleteItem";
-
+import ItemList from './ItemList';
+import DialogModifyNumericValue from './Dialogs/DialogModifyNumericValue';
+import DialogAddItem from './Dialogs/DialogAddItem';
+import DialogDeleteItem from './Dialogs/DialogDeleteItem';
 
 const PlayerSheet = (props) => {
     const [modifyXpDialogVisible, setModifyXpDialogVisible] = useState(false);
     const [addDialogVisible, setAddDialogVisible] = useState(false);
     const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
-    const [selectedItemType, setSelectedItemType] = useState("item");
+    const [selectedItemType, setSelectedItemType] = useState('item');
     const [selectedItemIndex, setSelectedItemIndex] = useState(0);
 
     const addItemHandler = (itemType, itemName) => {
         props.addItemHandler(itemType, itemName);
-    }
+    };
 
     const deleteItemHandler = (itemType, idx) => {
         props.deleteItemHandler(itemType, idx);
-    }
+    };
 
     const onDeleteItem = (itemType, idx) => {
         setSelectedItemType(itemType);
         setSelectedItemIndex(idx);
         setDeleteDialogVisible(true);
-    }
+    };
 
     const getCharDescription = () => {
         if (props.isDarkLord) {
@@ -35,7 +34,7 @@ const PlayerSheet = (props) => {
         } else {
             return <Text style={styles.classText}>{props.class}</Text>;
         }
-    }
+    };
 
     return (
         <View>
@@ -66,7 +65,12 @@ const PlayerSheet = (props) => {
                     <Text style={styles.playerChar}>{props.character}</Text>
                     <View style={styles.xpArea}>
                         <Text style={styles.xpText}>XP: {props.xp}</Text>
-                        <IconButton icon="pencil" color="black" size={20} onPress={() => setModifyXpDialogVisible(true)} />
+                        <IconButton
+                            icon="pencil"
+                            color="black"
+                            size={20}
+                            onPress={() => setModifyXpDialogVisible(true)}
+                        />
                     </View>
                 </View>
                 {getCharDescription()}
@@ -78,26 +82,26 @@ const PlayerSheet = (props) => {
                         itemType="item"
                         items={props.items}
                         onAdd={() => {
-                            setSelectedItemType("item");
+                            setSelectedItemType('item');
                             setAddDialogVisible(true);
                         }}
                         onGive={props.isDarkLord ? null : props.onGiveItem}
-                        onSell={(idx) => onDeleteItem("item", idx)}
+                        onSell={(idx) => onDeleteItem('item', idx)}
                     />
                     <ItemList
                         itemType="skill"
                         items={props.skills}
                         onAdd={() => {
-                            setSelectedItemType("skill");
+                            setSelectedItemType('skill');
                             setAddDialogVisible(true);
                         }}
-                        onDelete={(idx) => onDeleteItem("skill", idx)}
+                        onDelete={(idx) => onDeleteItem('skill', idx)}
                     />
                 </View>
-            </View >
+            </View>
         </View>
     );
-}
+};
 
 PlayerSheet.propTypes = {
     isDarkLord: PropTypes.bool,
@@ -115,18 +119,18 @@ PlayerSheet.propTypes = {
 
 const styles = StyleSheet.create({
     playerSheet: {
-        textAlign: "center",
-        alignSelf: "stretch",
+        textAlign: 'center',
+        alignSelf: 'stretch',
         padding: 10,
         margin: 12,
         paddingHorizontal: 18,
         borderRadius: 10,
-        borderWidth: 2
+        borderWidth: 2,
     },
     nameArea: {
-        flexDirection: "row",
-        alignContent: "stretch",
-        alignItems: "center",
+        flexDirection: 'row',
+        alignContent: 'stretch',
+        alignItems: 'center',
     },
     playerChar: {
         fontSize: 24,
@@ -134,19 +138,19 @@ const styles = StyleSheet.create({
     },
     classText: {
         fontSize: 13,
-        fontStyle: "italic",
+        fontStyle: 'italic',
     },
     xpArea: {
         flex: 1,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "flex-end"
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
     },
     xpText: {
         fontSize: 18,
     },
     separator: {
-        borderBottomColor: "black",
+        borderBottomColor: 'black',
         borderBottomWidth: 1,
         marginVertical: 5,
     },

@@ -6,22 +6,19 @@ import PropTypes from 'prop-types';
 const CampaignTopBar = (props) => {
     return (
         <Appbar style={styles.appbar}>
-            <Appbar.Action
-                icon="arrow-left"
-                onPress={props.onBack}
-            />
+            <Appbar.Action icon="arrow-left" onPress={props.onBack} />
         </Appbar>
     );
-}
+};
 
 CampaignTopBar.propTypes = {
-    onBack: PropTypes.func
+    onBack: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
     appbar: {
-        backgroundColor: "white",
-    }
+        backgroundColor: 'white',
+    },
 });
 
 export default CampaignTopBar;

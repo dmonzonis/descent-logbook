@@ -20,34 +20,29 @@ const GoldIndicator = (props) => {
 
             <View style={styles.root}>
                 <Text style={styles.goldText}>Gold: {props.gold}</Text>
-                <IconButton
-                    icon="pencil"
-                    size={16}
-                    color="black"
-                    onPress={() => setModifyGoldDialogVisible(true)}
-                />
+                <IconButton icon="pencil" size={16} color="black" onPress={() => setModifyGoldDialogVisible(true)} />
             </View>
         </View>
     );
-}
+};
 
 GoldIndicator.propTypes = {
     onModifyGold: PropTypes.func,
-    gold: PropTypes.number
+    gold: PropTypes.number,
 };
 
 export default GoldIndicator;
 
 const styles = StyleSheet.create({
     root: {
-        flexDirection: "row",
-        alignContent: "stretch",
-        alignItems: "center",
+        flexDirection: 'row',
+        alignContent: 'stretch',
+        alignItems: 'center',
         margin: 10,
     },
     goldText: {
-        fontWeight: "bold",
+        fontWeight: 'bold',
         fontSize: 18,
-        textAlign: "center"
-    }
+        textAlign: 'center',
+    },
 });
