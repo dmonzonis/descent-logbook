@@ -61,7 +61,7 @@ const DialogModifyNumericValue = ({
         }
     };
 
-    const onCloseHandler = () => {
+    const cleanUpAndClose = () => {
         setValue(0);
         setText('0');
         onClose();
@@ -69,7 +69,7 @@ const DialogModifyNumericValue = ({
 
     return (
         <Portal>
-            <Dialog visible={visible} onDismiss={onCloseHandler}>
+            <Dialog visible={visible} onDismiss={cleanUpAndClose}>
                 <Dialog.Title>Modify {name}</Dialog.Title>
                 <Dialog.Content>
                     <Paragraph>
@@ -115,7 +115,7 @@ const DialogModifyNumericValue = ({
                     </View>
                 </Dialog.Content>
                 <Dialog.Actions>
-                    <Button color="black" onPress={onCloseHandler}>
+                    <Button color="black" onPress={cleanUpAndClose}>
                         Cancel
                     </Button>
                     <Button
@@ -123,7 +123,7 @@ const DialogModifyNumericValue = ({
                         disabled={!isValidValue}
                         onPress={() => {
                             onModifyValue(value);
-                            onClose();
+                            cleanUpAndClose();
                         }}
                     >
                         Accept
