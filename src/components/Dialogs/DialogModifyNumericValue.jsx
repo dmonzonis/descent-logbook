@@ -4,6 +4,7 @@ import { Button, Dialog, Portal, Paragraph } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import TextInput from '../TextInput';
 import { DARK_BLUE } from '../../colors';
+import i18n from '../../i18n/i18n';
 
 const styles = StyleSheet.create({
     input: {
@@ -70,11 +71,11 @@ const DialogModifyNumericValue = ({
     return (
         <Portal>
             <Dialog visible={visible} onDismiss={cleanUpAndClose}>
-                <Dialog.Title>Modify {name}</Dialog.Title>
+                <Dialog.Title>
+                    {i18n.t('modify')} {name}
+                </Dialog.Title>
                 <Dialog.Content>
-                    <Paragraph>
-                        Insert a positive number to add {name}, or a negative number to remove {name}.
-                    </Paragraph>
+                    <Paragraph>{i18n.t('modifyDialogBody', { param: name })}</Paragraph>
 
                     <View style={styles.row}>
                         <Button
@@ -116,7 +117,7 @@ const DialogModifyNumericValue = ({
                 </Dialog.Content>
                 <Dialog.Actions>
                     <Button color="black" onPress={cleanUpAndClose}>
-                        Cancel
+                        {i18n.t('cancel')}
                     </Button>
                     <Button
                         color="black"
@@ -126,7 +127,7 @@ const DialogModifyNumericValue = ({
                             cleanUpAndClose();
                         }}
                     >
-                        Accept
+                        {i18n.t('accept')}
                     </Button>
                 </Dialog.Actions>
             </Dialog>

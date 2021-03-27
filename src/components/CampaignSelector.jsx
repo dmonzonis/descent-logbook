@@ -13,6 +13,7 @@ import {
 import Campaign from './Campaign';
 import DialogNewCampaign from './Dialogs/DialogNewCampaign';
 import DialogDeleteCampaign from './Dialogs/DialogDeleteCampaign';
+import i18n from '../i18n/i18n';
 import { DARK_BLUE } from '../colors';
 
 const styles = StyleSheet.create({
@@ -121,7 +122,7 @@ export default function CampaignSelector() {
                     onClose={() => setDeleteCampaignDialogVisible(false)}
                 />
 
-                <Text style={styles.title}>CAMPAIGNS</Text>
+                <Text style={styles.title}>{i18n.t('campaigns').toUpperCase()}</Text>
 
                 {summaries &&
                     summaries.map((summary) => {
@@ -148,7 +149,7 @@ export default function CampaignSelector() {
                         );
                     })}
                 <Button onPress={() => setCreateCampaignDialogVisible(true)} color={DARK_BLUE}>
-                    Add new campaign
+                    {i18n.t('addNewCampaign')}
                 </Button>
             </ScrollView>
         );

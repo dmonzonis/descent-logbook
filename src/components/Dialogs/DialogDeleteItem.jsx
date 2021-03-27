@@ -1,18 +1,21 @@
 import React from 'react';
 import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
 import PropTypes from 'prop-types';
+import i18n from '../../i18n/i18n';
 
 const DialogDeleteItem = ({ visible, type, itemName, onClose, onDelete }) => {
     return (
         <Portal>
             <Dialog visible={visible} onDismiss={onClose}>
-                <Dialog.Title>Delete {type}</Dialog.Title>
+                <Dialog.Title>
+                    {i18n.t('delete')} {type === 'item' ? i18n.t('item').toLowerCase() : i18n.t('skill').toLowerCase()}
+                </Dialog.Title>
                 <Dialog.Content>
-                    <Paragraph>Are you sure you want to delete {itemName}?</Paragraph>
+                    <Paragraph>{i18n.t('deleteBody', { name: itemName })}</Paragraph>
                 </Dialog.Content>
                 <Dialog.Actions>
                     <Button color="black" onPress={onClose}>
-                        Cancel
+                        {i18n.t('cancel')}
                     </Button>
                     <Button
                         color="red"
@@ -21,7 +24,7 @@ const DialogDeleteItem = ({ visible, type, itemName, onClose, onDelete }) => {
                             onClose();
                         }}
                     >
-                        DELETE
+                        {i18n.t('delete')}
                     </Button>
                 </Dialog.Actions>
             </Dialog>

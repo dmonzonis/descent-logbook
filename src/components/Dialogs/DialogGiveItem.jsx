@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, RadioButton, Dialog, Portal } from 'react-native-paper';
 import PropTypes from 'prop-types';
+import i18n from '../../i18n/i18n';
 
 const DialogGiveItem = ({ visible, heros, onClose, onGiveItem }) => {
     const [selectedPlayer, setSelectedPlayer] = useState(null);
@@ -22,7 +23,7 @@ const DialogGiveItem = ({ visible, heros, onClose, onGiveItem }) => {
     return (
         <Portal>
             <Dialog visible={visible} onDismiss={onClose}>
-                <Dialog.Title>Give item to</Dialog.Title>
+                <Dialog.Title>{i18n.t('giveItemTo')}</Dialog.Title>
                 <Dialog.Content>
                     <RadioButton.Group onValueChange={(value) => setSelectedPlayer(value)} value={selectedPlayer}>
                         {buildRadioButtons()}
@@ -30,7 +31,7 @@ const DialogGiveItem = ({ visible, heros, onClose, onGiveItem }) => {
                 </Dialog.Content>
                 <Dialog.Actions>
                     <Button color="black" onPress={onClose}>
-                        Cancel
+                        {i18n.t('cancel')}
                     </Button>
                     <Button
                         color="black"
@@ -41,7 +42,7 @@ const DialogGiveItem = ({ visible, heros, onClose, onGiveItem }) => {
                             onClose();
                         }}
                     >
-                        Give
+                        {i18n.t('give')}
                     </Button>
                 </Dialog.Actions>
             </Dialog>

@@ -3,6 +3,7 @@ import { View, ScrollView, StyleSheet } from 'react-native';
 import { Button, Text, Dialog, Portal } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import TextInput from '../TextInput';
+import i18n from '../../i18n/i18n';
 import { DARK_BLUE } from '../../colors';
 
 const styles = StyleSheet.create({
@@ -45,7 +46,7 @@ const DialogNewCampaign = ({ visible, onClose, onCreate }) => {
         players = [
             ...players,
             {
-                playerChar: 'Dark Lord',
+                playerChar: i18n.t('darkLord'),
                 playerClass: null,
                 isDarkLord: true,
                 xp: 0,
@@ -70,7 +71,7 @@ const DialogNewCampaign = ({ visible, onClose, onCreate }) => {
             }
             heroChars.add(hero.playerChar);
         }
-        if (heroChars.size !== heros.length || heroChars.has('Dark Lord')) {
+        if (heroChars.size !== heros.length || heroChars.has(i18n.t('darkLord'))) {
             // There is a repeated character, they have to be unique
             return true;
         }
@@ -105,12 +106,12 @@ const DialogNewCampaign = ({ visible, onClose, onCreate }) => {
     return (
         <Portal>
             <Dialog visible={visible} onDismiss={onCloseHandler} style={styles.formRoot}>
-                <Dialog.Title>New campaign</Dialog.Title>
+                <Dialog.Title>{i18n.t('newCampaign')}</Dialog.Title>
                 <Dialog.ScrollArea>
                     <ScrollView>
-                        <Text>Campaign</Text>
+                        <Text>{i18n.t('campaign')}</Text>
                         <TextInput
-                            label="Campaign name"
+                            label={i18n.t('campaignName')}
                             defaultValue={name}
                             onChangeText={(text) => setName(text)}
                             dense
@@ -119,17 +120,19 @@ const DialogNewCampaign = ({ visible, onClose, onCreate }) => {
                         {heros.map((hero, idx) => {
                             return (
                                 <View key={idx}>
-                                    <Text>Hero {idx + 1}</Text>
+                                    <Text>
+                                        {i18n.t('hero')} {idx + 1}
+                                    </Text>
                                     <TextInput
                                         style={styles.heroTextInput}
-                                        label="Character"
+                                        label={i18n.t('character')}
                                         defaultValue={hero.playerChar}
                                         dense
                                         onChangeText={(text) => modifyHeroAttrib(idx, 'char', text)}
                                     />
                                     <TextInput
                                         style={styles.heroTextInput}
-                                        label="Class"
+                                        label={i18n.t('class')}
                                         defaultValue={hero.playerClass}
                                         dense
                                         onChangeText={(text) => modifyHeroAttrib(idx, 'class', text)}
@@ -140,14 +143,14 @@ const DialogNewCampaign = ({ visible, onClose, onCreate }) => {
 
                         {heros.length < 4 && (
                             <Button color={DARK_BLUE} onPress={() => addHero()}>
-                                Add player
+                                {i18n.t('addPlayer')}
                             </Button>
                         )}
                     </ScrollView>
                 </Dialog.ScrollArea>
                 <Dialog.Actions>
                     <Button color="red" onPress={onCloseHandler}>
-                        Cancel
+                        {i18n.t('cancel')}
                     </Button>
                     <Button
                         disabled={isDataInvalid()}
@@ -158,7 +161,7 @@ const DialogNewCampaign = ({ visible, onClose, onCreate }) => {
                             onCloseHandler();
                         }}
                     >
-                        Add
+                        {i18n.t('add')}
                     </Button>
                 </Dialog.Actions>
             </Dialog>

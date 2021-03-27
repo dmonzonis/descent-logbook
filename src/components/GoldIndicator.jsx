@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import DialogModifyNumericValue from './Dialogs/DialogModifyNumericValue';
+import i18n from '../i18n/i18n';
 
 const styles = StyleSheet.create({
     root: {
@@ -24,7 +25,7 @@ const GoldIndicator = ({ gold, onModifyGold }) => {
     return (
         <View>
             <DialogModifyNumericValue
-                name="Gold"
+                name={i18n.t('gold')}
                 visible={modifyGoldDialogVisible}
                 currentValue={gold}
                 atomicAmount={25}
@@ -33,7 +34,9 @@ const GoldIndicator = ({ gold, onModifyGold }) => {
             />
 
             <View style={styles.root}>
-                <Text style={styles.goldText}>Gold: {gold}</Text>
+                <Text style={styles.goldText}>
+                    {i18n.t('gold')}: {gold}
+                </Text>
                 <IconButton icon="pencil" size={16} color="black" onPress={() => setModifyGoldDialogVisible(true)} />
             </View>
         </View>

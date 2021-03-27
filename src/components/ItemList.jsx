@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 import PropTypes from 'prop-types';
+import i18n from '../i18n/i18n';
 import Item from './Item';
 
 const styles = StyleSheet.create({
@@ -12,10 +13,10 @@ const styles = StyleSheet.create({
     },
     categoryTitle: {
         fontWeight: 'bold',
-        flex: 1,
+        flex: 2,
     },
     list: {
-        flex: 5,
+        flex: 6,
     },
 });
 
@@ -34,11 +35,11 @@ const ItemList = ({ items, itemType, onAdd, onGive, onSell, onDelete }) => {
 
     return (
         <View style={styles.root}>
-            <Text style={styles.categoryTitle}>{itemType === 'item' ? 'Item' : 'Skill'}</Text>
+            <Text style={styles.categoryTitle}>{itemType === 'item' ? i18n.t('items') : i18n.t('skills')}</Text>
             <View style={styles.list}>
                 {itemListRender}
                 <Button color="black" icon="plus" mode="outlined" onPress={onAdd}>
-                    ADD
+                    {i18n.t('add')}
                 </Button>
             </View>
         </View>
